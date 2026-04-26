@@ -244,6 +244,17 @@
             color: var(--text-dim);
         }
 
+        /* Nova Estilização do Texto de Tempo Escrito */
+        .full-date-display {
+            margin-top: 30px;
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #fff;
+            text-transform: lowercase;
+            letter-spacing: 1px;
+            opacity: 0.9;
+        }
+
         footer {
             padding: 60px 20px;
             text-align: center;
@@ -267,12 +278,12 @@
 </header>
 
 <main class="container">
-    
+
     <section class="manifesto">
         <h2>O Manifesto</h2>
         <p>A gente não é perfeito — é real.</p>
         <p>Sem roteiro, sem filtro.</p>
-        
+
         <center><img src="images/manifesto.jpg" class="content-img"></center>
 
         <p>Entre caos e escolhas, eu escolhi você. Mesmo quando tudo parecia incerto.</p>
@@ -289,7 +300,7 @@
             <div class="chapter-body">
                 <p>O Momento que minha vida mudou...</p>
                 <p>O Bosque das Cerejeiras, no Parque do Carmo, foi o cenário. Mas não foi coisa de filme — foi real.</p>
-                
+
                 <img src="images/chapter1.jpg" class="content-img">
 
                 <p>Foi o pedido. Foi o começo. E ali, no meio daquele instante, eu entendi que você não era só parte do caminho — era o meu caminho.</p>
@@ -303,7 +314,7 @@
             </div>
             <div class="chapter-body">
                 <p>Amor de verdade não é ausência de conflito, é escolha mesmo nos momentos difíceis.</p>
-                
+
                 <img src="images/chapter2.jpg" class="content-img">
 
                 <p>Cada momento difícil não nos afastou — nos aproximou. Nos ensinou mais sobre o outro do que qualquer momento fácil poderia ensinar.</p>
@@ -317,7 +328,7 @@
             </div>
             <div class="chapter-body">
                 <p>Você me dá tesão. Eu te quero o tempo todo. Você é muito gostosa. Eu penso em você e já sinto vontade.</p>
-                
+
                 <img src="images/chapter3.jpg" class="content-img">
 
                 <p>A gente se entrega por inteiro. Sem medo, sem pudor, com a fome de quem sabe que a vida é curta demais pra sentimentos mornos.</p>
@@ -364,6 +375,9 @@
                 <span class="counter-label">Segundos</span>
             </div>
         </div>
+
+        <div id="full-date-text" class="full-date-display"></div>
+
         <p style="margin-top: 40px; font-style: italic; color: var(--accent-red);">Cada segundo vale a pena estando com vc...</p>
     </section>
 
@@ -376,24 +390,52 @@
 
 <script>
     function updateCountdown() {
-        const startRelationship = new Date('2023-09-15T00:00:00');
+        const start = new Date('2023-09-15T00:00:00');
         const now = new Date();
-        const diff = now - startRelationship;
-
-        const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+        
+        // 1. Cálculo do contador individual (Total de dias, horas, etc)
+        const diff = now - start;
+        const dTotal = Math.floor(diff / (1000 * 60 * 60 * 24));
         const h = Math.floor((diff / (1000 * 60 * 60)) % 24);
         const m = Math.floor((diff / (1000 * 60)) % 60);
         const s = Math.floor((diff / 1000) % 60);
 
-        document.getElementById('days').innerText = d < 10 ? '0' + d : d;
+        document.getElementById('days').innerText = dTotal < 10 ? '0' + dTotal : dTotal;
         document.getElementById('hours').innerText = h < 10 ? '0' + h : h;
         document.getElementById('minutes').innerText = m < 10 ? '0' + m : m;
         document.getElementById('seconds').innerText = s < 10 ? '0' + s : s;
+
+        // 2. Cálculo do Tempo Escrito (Anos, Meses e Dias Reais)
+        let years = now.getFullYear() - start.getFullYear();
+        let months = now.getMonth() - start.getMonth();
+        let days = now.getDate() - start.getDate();
+
+        // Ajuste para dias negativos (mês não completou)
+        if (days < 0) {
+            months--;
+            const lastMonth = new Date(now.getFullYear(), now.getMonth(), 0);
+            days += lastMonth.getDate();
+        }
+
+        // Ajuste para meses negativos (ano não completou)
+        if (months < 0) {
+            years--;
+            months += 12;
+        }
+
+        // Formatação plural/singular
+        const yearText = years === 1 ? "1 ano" : years + " anos";
+        const monthText = months === 1 ? "1 mês" : months + " meses";
+        const dayText = days === 1 ? "1 dia" : days + " dias";
+
+        document.getElementById('full-date-text').innerText = `${yearText}, ${monthText} e ${dayText}`;
     }
 
+    // Inicialização e Intervalo
     setInterval(updateCountdown, 1000);
     updateCountdown();
 
+    // Efeito de scroll (Observer)
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
