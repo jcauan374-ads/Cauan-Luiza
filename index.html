@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cauan & Luiza | Crônicas do nosso amor</title>
     <style>
-        /* CSS TOTALMENTE CUSTOMIZADO - VISCERAL & MODERNO */
         :root {
             --bg-deep: #050505;
             --bg-card: #121212;
@@ -27,7 +26,6 @@
             line-height: 1.6;
         }
 
-        /* Efeito de Ruído/Grão */
         body::before {
             content: "";
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
@@ -35,7 +33,6 @@
             opacity: 0.03; pointer-events: none; z-index: 1000;
         }
 
-        /* Header de Impacto */
         header {
             height: 100vh;
             display: flex;
@@ -67,7 +64,6 @@
             padding: 0 20px;
         }
 
-        /* Estilo das Imagens */
         .content-img {
             width: 100%;
             max-width: 500px;
@@ -77,7 +73,6 @@
             display: block;
         }
 
-        /* Seção Manifesto */
         .manifesto {
             padding: 100px 20px;
             text-align: center;
@@ -98,7 +93,6 @@
             margin-bottom: 20px;
         }
 
-        /* Timeline Extensa */
         .timeline-wrapper {
             padding: 50px 20px;
             max-width: 1000px;
@@ -161,7 +155,6 @@
             font-size: 1.05rem;
         }
 
-        /* Grid de Intensidade */
         .intensity-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -183,7 +176,6 @@
             text-transform: uppercase;
         }
 
-        /* Tags */
         .lexicon-tags {
             display: flex;
             flex-wrap: wrap;
@@ -207,7 +199,6 @@
             box-shadow: var(--neon-shadow);
         }
 
-        /* Contador */
         .counter-section {
             background: linear-gradient(to bottom, var(--bg-deep), #000);
             padding: 100px 20px;
@@ -244,7 +235,6 @@
             color: var(--text-dim);
         }
 
-        /* Nova Estilização do Texto de Tempo Escrito */
         .full-date-display {
             margin-top: 30px;
             font-size: 1.4rem;
@@ -253,6 +243,16 @@
             text-transform: lowercase;
             letter-spacing: 1px;
             opacity: 0.9;
+        }
+
+        .start-date-display {
+            margin-top: 10px;
+            font-size: 1rem;
+            font-weight: 400;
+            color: var(--text-dim);
+            text-transform: lowercase;
+            letter-spacing: 1px;
+            font-style: italic;
         }
 
         footer {
@@ -377,6 +377,7 @@
         </div>
 
         <div id="full-date-text" class="full-date-display"></div>
+        <div id="start-date-text" class="start-date-display"></div>
 
         <p style="margin-top: 40px; font-style: italic; color: var(--accent-red);">Cada segundo vale a pena estando com vc...</p>
     </section>
@@ -392,8 +393,8 @@
     function updateCountdown() {
         const start = new Date('2023-09-15T00:00:00');
         const now = new Date();
-        
-        // 1. Cálculo do contador individual (Total de dias, horas, etc)
+
+        // Contador individual (total de dias, horas, minutos, segundos)
         const diff = now - start;
         const dTotal = Math.floor(diff / (1000 * 60 * 60 * 24));
         const h = Math.floor((diff / (1000 * 60 * 60)) % 24);
@@ -405,37 +406,45 @@
         document.getElementById('minutes').innerText = m < 10 ? '0' + m : m;
         document.getElementById('seconds').innerText = s < 10 ? '0' + s : s;
 
-        // 2. Cálculo do Tempo Escrito (Anos, Meses e Dias Reais)
+        // Tempo escrito (anos, meses e dias reais)
         let years = now.getFullYear() - start.getFullYear();
         let months = now.getMonth() - start.getMonth();
         let days = now.getDate() - start.getDate();
 
-        // Ajuste para dias negativos (mês não completou)
         if (days < 0) {
             months--;
             const lastMonth = new Date(now.getFullYear(), now.getMonth(), 0);
             days += lastMonth.getDate();
         }
 
-        // Ajuste para meses negativos (ano não completou)
         if (months < 0) {
             years--;
             months += 12;
         }
 
-        // Formatação plural/singular
-        const yearText = years === 1 ? "1 ano" : years + " anos";
-        const monthText = months === 1 ? "1 mês" : months + " meses";
-        const dayText = days === 1 ? "1 dia" : days + " dias";
+        const yearText  = years  === 1 ? "1 ano"  : years  + " anos";
+        const monthText = months === 1 ? "1 mês"  : months + " meses";
+        const dayText   = days   === 1 ? "1 dia"  : days   + " dias";
 
         document.getElementById('full-date-text').innerText = `${yearText}, ${monthText} e ${dayText}`;
+
+        // Data de início formatada (só precisa rodar uma vez, mas tudo bem aqui)
+        const meses = [
+            "janeiro","fevereiro","março","abril","maio","junho",
+            "julho","agosto","setembro","outubro","novembro","dezembro"
+        ];
+        const diaInicio = start.getDate();
+        const mesInicio = meses[start.getMonth()];
+        const anoInicio = start.getFullYear();
+
+        document.getElementById('start-date-text').innerText =
+            `desde ${diaInicio} de ${mesInicio} de ${anoInicio}`;
     }
 
-    // Inicialização e Intervalo
     setInterval(updateCountdown, 1000);
     updateCountdown();
 
-    // Efeito de scroll (Observer)
+    // Efeito de scroll
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
