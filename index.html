@@ -4,6 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cauan & Luiza | Crônicas do nosso amor</title>
+    <meta name="description" content="Cauan & Luiza — crônicas, memórias, promessas e sonhos de uma história escrita a dois.">
+    <meta property="og:title" content="Cauan & Luiza | Crônicas do nosso amor">
+    <meta property="og:description" content="Uma história real, intensa e escrita a dois.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://jcauan374-ads.github.io/Cauan-Luiza/">
+    <meta property="og:image" content="https://jcauan374-ads.github.io/Cauan-Luiza/images/manifesto.jpg">
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E❤️%3C/text%3E%3C/svg%3E">
     <style>
         :root {
             --bg-deep: #050505;
@@ -793,10 +800,95 @@
         }
 
         @media (max-width: 480px) { .nav-links { display: none; } }
+        /* ===== MELHORIAS CAUAN & LUIZA ===== */
+        body.reader-mode { --text-main: #f5f5f5; --text-dim: #bdbdbd; }
+        body.reader-mode main p { font-size: 1.12rem; line-height: 1.95; }
+        #readingProgress { position: fixed; top: 0; left: 0; width: 0; height: 3px; background: linear-gradient(90deg, var(--accent-red), var(--accent-glow)); box-shadow: 0 0 12px var(--accent-glow); z-index: 2000; transition: width .1s linear; }
+        #splash { position: fixed; inset: 0; z-index: 3000; display: grid; place-items: center; background: radial-gradient(circle at 50% 45%, rgba(158,13,13,.22), transparent 38%), #050505; transition: opacity .8s ease, visibility .8s ease; }
+        #splash.is-hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+        .splash-content { text-align: center; animation: splashPulse 1.8s ease-in-out infinite alternate; }
+        .splash-content h1 { color: #fff; letter-spacing: .16em; font-size: clamp(1.5rem, 5vw, 3.7rem); }
+        .splash-content p { margin-top: 10px; color: var(--accent-glow); letter-spacing: .28em; text-transform: uppercase; font-size: .7rem; }
+        @keyframes splashPulse { from { transform: scale(.96); opacity: .65; } to { transform: scale(1); opacity: 1; } }
+        .utility-dock { position: fixed; right: 22px; bottom: 24px; z-index: 1400; display: flex; flex-direction: column; gap: 9px; }
+        .utility-btn { width: 44px; height: 44px; border: 1px solid rgba(255,46,46,.45); border-radius: 50%; background: rgba(12,12,12,.82); color: #fff; cursor: pointer; display: grid; place-items: center; font-size: 1rem; transition: transform .2s ease, background .2s ease, box-shadow .2s ease; backdrop-filter: blur(12px); }
+        .utility-btn:hover, .utility-btn:focus-visible { transform: translateY(-3px); background: var(--accent-red); box-shadow: 0 0 18px rgba(255,46,46,.42); outline: none; }
+        #shareToast { position: fixed; right: 22px; bottom: 222px; z-index: 1500; padding: 10px 14px; border: 1px solid rgba(255,46,46,.4); border-radius: 999px; background: rgba(20,0,0,.94); color: #fff; font-size: .78rem; opacity: 0; transform: translateY(8px); pointer-events: none; transition: .25s ease; }
+        #shareToast.show { opacity: 1; transform: translateY(0); }
+        #backToTop { opacity: 0; pointer-events: none; transform: translateY(10px); }
+        #backToTop.visible { opacity: 1; pointer-events: auto; transform: translateY(0); }
+        .nav-toggle { display: none; border: 1px solid rgba(255,46,46,.45); background: transparent; color: #fff; border-radius: 10px; width: 44px; height: 44px; font-size: 1.25rem; cursor: pointer; }
+        .type-cursor { display: inline-block; width: 2px; height: 1em; margin-left: 4px; vertical-align: -.12em; background: var(--accent-glow); animation: blinkCursor .8s step-end infinite; }
+        @keyframes blinkCursor { 50% { opacity: 0; } }
+        .countdown-next { margin: 26px auto 0; max-width: 620px; padding: 18px 20px; border: 1px solid rgba(255,46,46,.28); border-radius: 18px; background: linear-gradient(135deg, rgba(158,13,13,.18), rgba(255,255,255,.03)); box-shadow: var(--neon-shadow); }
+        .countdown-next strong { color: var(--accent-glow); }
+        #nextBirthday { margin-top: 6px; font-size: clamp(1.2rem, 3vw, 2rem); letter-spacing: .08em; }
+        .new-section { padding: 84px 7%; position: relative; }
+        .new-section .section-title { margin-bottom: 34px; }
+        .love-grid, .playlist-grid, .stats-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; max-width: 1120px; margin: 0 auto; }
+        .love-card, .playlist-card, .stat-card, .climate-card, .message-board { background: linear-gradient(145deg, rgba(255,255,255,.055), rgba(158,13,13,.10)); border: 1px solid rgba(255,255,255,.12); border-radius: 20px; padding: 24px; box-shadow: 0 14px 40px rgba(0,0,0,.22); backdrop-filter: blur(10px); transition: transform .25s ease, border-color .25s ease, box-shadow .25s ease; }
+        .love-card:hover, .playlist-card:hover, .stat-card:hover { transform: translateY(-5px); border-color: rgba(255,46,46,.6); box-shadow: 0 0 24px rgba(158,13,13,.24); }
+        .love-card h3, .playlist-card h3 { margin: 10px 0 8px; color: #fff; }
+        .love-card p, .playlist-card p, .climate-card p { color: var(--text-dim); font-size: .92rem; }
+        .card-icon { color: var(--accent-glow); font-size: 1.4rem; }
+        .playlist-card a { display: inline-block; margin-top: 15px; color: var(--accent-glow); font-size: .82rem; text-decoration: none; }
+        .playlist-card a:hover { text-decoration: underline; }
+        .stat-card { text-align: center; }
+        .stat-number { display: block; color: var(--accent-glow); font-size: clamp(1.8rem, 4vw, 2.7rem); font-weight: 800; }
+        .stat-label { color: var(--text-dim); font-size: .78rem; text-transform: uppercase; letter-spacing: .08em; }
+        .climate-wrap { max-width: 760px; margin: 0 auto; }
+        .climate-card { display: flex; align-items: center; gap: 20px; }
+        .climate-icon { font-size: 3rem; }
+        .climate-card h3 { color: #fff; margin-bottom: 4px; }
+        .message-board { max-width: 760px; margin: 0 auto; }
+        .message-form { display: grid; gap: 12px; }
+        .message-form input, .message-form textarea { width: 100%; border: 1px solid rgba(255,255,255,.16); border-radius: 12px; padding: 12px 14px; color: #fff; background: rgba(0,0,0,.32); font: inherit; resize: vertical; }
+        .message-form input:focus, .message-form textarea:focus { outline: 2px solid rgba(255,46,46,.5); border-color: var(--accent-glow); }
+        .message-form button, .future-check { border: 1px solid rgba(255,46,46,.55); border-radius: 999px; padding: 10px 15px; background: rgba(158,13,13,.2); color: #fff; cursor: pointer; transition: .2s ease; }
+        .message-form button:hover, .future-check:hover { background: var(--accent-red); }
+        #messageList { display: grid; gap: 10px; margin-top: 18px; }
+        .saved-message { border-left: 2px solid var(--accent-glow); padding: 10px 12px; background: rgba(255,255,255,.04); color: var(--text-dim); font-size: .9rem; }
+        .future-card { position: relative; }
+        .future-check { display: inline-flex; align-items: center; gap: 6px; margin-top: 12px; font-size: .75rem; }
+        .future-card.future-done { border-color: rgba(255,46,46,.58); box-shadow: 0 0 20px rgba(158,13,13,.2); }
+        .future-card.future-done .future-check { background: var(--accent-red); }
+        .heart-pop { position: fixed; z-index: 1700; pointer-events: none; color: #ff3434; font-size: 4rem; text-shadow: 0 0 22px rgba(255,46,46,.85); animation: heartPop .9s ease forwards; transform: translate(-50%, -50%); }
+        @keyframes heartPop { 0% { opacity: 0; transform: translate(-50%,-50%) scale(.45); } 25% { opacity: 1; transform: translate(-50%,-50%) scale(1.15); } 100% { opacity: 0; transform: translate(-50%,-90%) scale(1); } }
+        .animated-divider { height: 1px; margin: 10px auto 0; max-width: 180px; background: linear-gradient(90deg, transparent, var(--accent-glow), transparent); animation: dividerGlow 2.2s ease-in-out infinite alternate; }
+        @keyframes dividerGlow { from { opacity: .35; transform: scaleX(.65); } to { opacity: 1; transform: scaleX(1); } }
+        .reveal-soft { opacity: 0; transform: translateY(22px); transition: opacity .7s ease, transform .7s ease; }
+        .reveal-soft.in-view { opacity: 1; transform: translateY(0); }
+        @media (max-width: 760px) {
+            .nav-toggle { display: block; }
+            #navbar { display: flex; align-items: center; justify-content: space-between; }
+            .nav-links { position: absolute; top: 100%; left: 12px; right: 12px; display: none; flex-direction: column; padding: 10px; border: 1px solid rgba(255,46,46,.28); border-radius: 14px; background: rgba(5,5,5,.96); }
+            .nav-links.open { display: flex; }
+            .nav-links li { width: 100%; }
+            .nav-links a { display: block; padding: 12px 14px; }
+            .utility-dock { right: 14px; bottom: 14px; }
+            #shareToast { right: 14px; bottom: 196px; }
+            .love-grid, .playlist-grid, .stats-grid { grid-template-columns: 1fr; }
+            .new-section { padding: 64px 5%; }
+            .climate-card { align-items: flex-start; }
+        }
+        @media (min-width: 761px) and (max-width: 1100px) {
+            .love-grid, .playlist-grid, .stats-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+            .reveal-soft { opacity: 1; transform: none; }
+        }
     </style>
 </head>
 <body>
-
+<div id="splash" aria-label="Abrindo Cauan e Luiza"><div class="splash-content"><h1>Cauan &amp; Luiza</h1><p>Crônicas do nosso amor</p></div></div>
+<div id="readingProgress" aria-hidden="true"></div>
+<div class="utility-dock" aria-label="Controles da página">
+    <button class="utility-btn" id="shareButton" type="button" aria-label="Compartilhar página" title="Compartilhar">↗</button>
+    <button class="utility-btn" id="readerToggle" type="button" aria-label="Ativar modo leitura" title="Modo leitura">A↕</button>
+    <button class="utility-btn" id="backToTop" type="button" aria-label="Voltar ao topo" title="Voltar ao topo">↑</button>
+</div>
+<div id="shareToast" role="status" aria-live="polite">Link copiado ❤️</div>
 <!-- ✅ ÁUDIO LOCAL - aponta para a pasta audio/ no repositório -->
     <audio id="audioPlayer" loop>
     <source src="musica.m4a" type="audio/mp4">
@@ -841,7 +933,8 @@
 
 <!-- Navbar -->
 <nav id="navbar">
-    <div class="nav-logo">C & L</div>
+    <div class="nav-logo">C &amp; L</div>
+    <button class="nav-toggle" id="navToggle" type="button" aria-label="Abrir menu" aria-expanded="false">☰</button>
     <ul class="nav-links">
         <li><a href="#manifesto">Manifesto</a></li>
         <li><a href="#capitulos">Capítulos</a></li>
@@ -849,12 +942,14 @@
         <li><a href="#amor">Amor</a></li>
         <li><a href="#promessas">Promessas</a></li>
         <li><a href="#contador">Contador</a></li>
+        <li><a href="#playlist">Playlist</a></li>
+        <li><a href="#recados">Recados</a></li>
     </ul>
 </nav>
 
 <header>
     <h1 id="mainTitle">𝙲𝙰𝚄𝙰𝙽 & 𝙻𝚄𝙸𝚉𝙰</h1>
-    <p>Narrando a trajetória de quem não tem medo de sentir tudo, sem filtro e sem pausa.</p>
+    <p id="heroTyping" data-text="Narrando a trajetória de quem não tem medo de sentir tudo, sem filtro e sem pausa."><span class="type-cursor" aria-hidden="true"></span></p>
     <div class="scroll-hint">role para baixo</div>
 </header>
 
@@ -1187,11 +1282,42 @@
         </div>
         <div id="full-date-text" class="full-date-display"></div>
         <div id="start-date-text" class="start-date-display"></div>
+        <div class="countdown-next" aria-live="polite"><strong>Próximo aniversário de namoro</strong><div id="nextBirthday">calculando...</div></div>
         <p style="margin-top: 40px; font-style: italic; color: var(--accent-red);">Cada segundo vale a pena estando com vc...</p>
     </section>
 
-</main>
+    <section class="new-section reveal-soft" id="playlist">
+        <div class="section-title"><h2>A nossa <span>Playlist</span></h2><p>músicas que carregam um pedaço da nossa história</p><div class="divider"></div><div class="animated-divider"></div></div>
+        <div class="playlist-grid">
+            <article class="playlist-card"><span class="card-icon">♫</span><h3>Nossa música</h3><p>Adicione aqui a música que sempre lembra um do outro.</p><a href="https://open.spotify.com/" target="_blank" rel="noopener">Abrir no Spotify ↗</a></article>
+            <article class="playlist-card"><span class="card-icon">♡</span><h3>Para ouvir no caminho</h3><p>Uma faixa para os dias comuns que ficam especiais.</p><a href="https://open.spotify.com/" target="_blank" rel="noopener">Abrir no Spotify ↗</a></article>
+            <article class="playlist-card"><span class="card-icon">∞</span><h3>Trilha do futuro</h3><p>Uma música para cada sonho que ainda vamos realizar.</p><a href="https://open.spotify.com/" target="_blank" rel="noopener">Abrir no Spotify ↗</a></article>
+        </div>
+    </section>
 
+    <section class="new-section reveal-soft" id="recados">
+        <div class="section-title"><h2>Mural de <span>Recados</span></h2><p>palavras guardadas neste navegador</p><div class="divider"></div><div class="animated-divider"></div></div>
+        <div class="message-board">
+            <form class="message-form" id="messageForm"><input id="messageName" maxlength="40" placeholder="Seu nome" aria-label="Seu nome" required><textarea id="messageText" rows="3" maxlength="240" placeholder="Escreva um recado para nós..." aria-label="Seu recado" required></textarea><button type="submit">Guardar recado ❤️</button></form>
+            <div id="messageList" aria-live="polite"></div>
+        </div>
+    </section>
+
+    <section class="new-section reveal-soft" id="estatisticas">
+        <div class="section-title"><h2>Nossa <span>Estatística</span></h2><p>números que não explicam tudo, mas contam bastante</p><div class="divider"></div><div class="animated-divider"></div></div>
+        <div class="stats-grid">
+            <div class="stat-card"><span class="stat-number">∞</span><span class="stat-label">conversas que ainda faltam</span></div>
+            <div class="stat-card"><span class="stat-number">100%</span><span class="stat-label">vontade de continuar</span></div>
+            <div class="stat-card"><span class="stat-number">01</span><span class="stat-label">história que é só nossa</span></div>
+        </div>
+    </section>
+
+    <section class="new-section reveal-soft" id="clima">
+        <div class="section-title"><h2>Nosso <span>Clima</span></h2><p>previsão oficial do coração</p><div class="divider"></div><div class="animated-divider"></div></div>
+        <div class="climate-wrap"><div class="climate-card"><span class="climate-icon">☀️</span><div><h3>Ensolarado com rajadas de amor</h3><p>Temperatura estável, possibilidade de abraços repentinos e 100% de chance de escolher você de novo.</p></div></div></div>
+    </section>
+
+</main>
 <footer>
     <div class="footer-names">Cauan & Luiza</div>
     <p>Desde 15 de setembro de 2023</p>
@@ -1328,6 +1454,142 @@
             clickCount = 0;
         }
     });
+
+    // ===================== MELHORIAS DE UX =====================
+    window.setTimeout(() => document.getElementById('splash')?.classList.add('is-hidden'), 3000);
+
+    const typingTarget = document.getElementById('heroTyping');
+    if (typingTarget) {
+        const typingText = typingTarget.dataset.text || '';
+        const cursor = typingTarget.querySelector('.type-cursor');
+        let typingIndex = 0;
+        typingTarget.firstChild && (typingTarget.firstChild.textContent = '');
+        const typeNext = () => {
+            if (typingIndex < typingText.length) {
+                cursor.before(document.createTextNode(typingText[typingIndex++]));
+                window.setTimeout(typeNext, 32);
+            }
+        };
+        window.setTimeout(typeNext, 3200);
+    }
+
+    const navToggle = document.getElementById('navToggle');
+    const navLinks = document.querySelector('.nav-links');
+    navToggle?.addEventListener('click', () => {
+        const open = navLinks.classList.toggle('open');
+        navToggle.setAttribute('aria-expanded', String(open));
+        navToggle.textContent = open ? '✕' : '☰';
+    });
+    navLinks?.querySelectorAll('a').forEach(link => link.addEventListener('click', () => {
+        navLinks.classList.remove('open');
+        navToggle?.setAttribute('aria-expanded', 'false');
+        if (navToggle) navToggle.textContent = '☰';
+    }));
+
+    const updateScrollUi = () => {
+        const scrollable = document.documentElement.scrollHeight - window.innerHeight;
+        const progress = scrollable > 0 ? (window.scrollY / scrollable) * 100 : 0;
+        document.getElementById('readingProgress').style.width = `${progress}%`;
+        document.getElementById('backToTop').classList.toggle('visible', window.scrollY > 300);
+        const header = document.querySelector('header');
+        if (header && window.innerWidth > 760) header.style.backgroundPosition = `center ${window.scrollY * 0.16}px`;
+    };
+    window.addEventListener('scroll', updateScrollUi, { passive: true });
+    updateScrollUi();
+    document.getElementById('backToTop').addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+    document.getElementById('readerToggle').addEventListener('click', event => {
+        document.body.classList.toggle('reader-mode');
+        const active = document.body.classList.contains('reader-mode');
+        event.currentTarget.setAttribute('aria-label', active ? 'Desativar modo leitura' : 'Ativar modo leitura');
+        event.currentTarget.textContent = active ? 'A−' : 'A↕';
+    });
+    document.getElementById('shareButton').addEventListener('click', async () => {
+        const shareData = { title: document.title, text: 'Cauan & Luiza — Crônicas do nosso amor', url: window.location.href };
+        try {
+            if (navigator.share) await navigator.share(shareData);
+            else await navigator.clipboard.writeText(window.location.href);
+            document.getElementById('shareToast').classList.add('show');
+            window.setTimeout(() => document.getElementById('shareToast').classList.remove('show'), 2200);
+        } catch (error) { /* compartilhamento cancelado pelo usuário */ }
+    });
+
+    // ===================== PRÓXIMO ANIVERSÁRIO =====================
+    function updateNextBirthday() {
+        const now = new Date();
+        let target = new Date(now.getFullYear(), 8, 15, 0, 0, 0);
+        if (target <= now) target = new Date(now.getFullYear() + 1, 8, 15, 0, 0, 0);
+        const diff = target - now;
+        const days = Math.floor(diff / 86400000);
+        const hours = Math.floor((diff / 3600000) % 24);
+        const mins = Math.floor((diff / 60000) % 60);
+        const secs = Math.floor((diff / 1000) % 60);
+        document.getElementById('nextBirthday').textContent = `${days}d ${String(hours).padStart(2,'0')}h ${String(mins).padStart(2,'0')}m ${String(secs).padStart(2,'0')}s`;
+    }
+    updateNextBirthday();
+    window.setInterval(updateNextBirthday, 1000);
+
+    // ===================== CORAÇÃO NA GALERIA =====================
+    document.querySelectorAll('.gallery-item').forEach(item => item.addEventListener('dblclick', event => {
+        const heart = document.createElement('span');
+        heart.className = 'heart-pop';
+        heart.textContent = '♥';
+        heart.style.left = `${event.clientX}px`;
+        heart.style.top = `${event.clientY}px`;
+        document.body.appendChild(heart);
+        window.setTimeout(() => heart.remove(), 900);
+    }));
+
+    // ===================== MURAL LOCAL =====================
+    const messageList = document.getElementById('messageList');
+    const loadMessages = () => {
+        messageList.innerHTML = '';
+        JSON.parse(localStorage.getItem('cauanLuizaMessages') || '[]').slice(-8).reverse().forEach(message => {
+            const item = document.createElement('div');
+            item.className = 'saved-message';
+            item.textContent = `${message.name}: ${message.text}`;
+            messageList.appendChild(item);
+        });
+    };
+    document.getElementById('messageForm').addEventListener('submit', event => {
+        event.preventDefault();
+        const messages = JSON.parse(localStorage.getItem('cauanLuizaMessages') || '[]');
+        messages.push({ name: document.getElementById('messageName').value.trim(), text: document.getElementById('messageText').value.trim(), date: Date.now() });
+        localStorage.setItem('cauanLuizaMessages', JSON.stringify(messages));
+        event.target.reset();
+        loadMessages();
+    });
+    loadMessages();
+
+    // ===================== TIMELINE FUTURA PERSISTENTE =====================
+    const futureState = JSON.parse(localStorage.getItem('cauanLuizaFuture') || '{}');
+    document.querySelectorAll('.future-card').forEach((card, index) => {
+        const key = `future-${index}`;
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.className = 'future-check';
+        button.setAttribute('aria-pressed', String(Boolean(futureState[key] || card.classList.contains('done'))));
+        const paintFuture = done => { card.classList.toggle('future-done', done); button.textContent = done ? '✓ Conquistado' : '○ Marcar como vivido'; button.setAttribute('aria-pressed', String(done)); };
+        paintFuture(Boolean(futureState[key] || card.classList.contains('done')));
+        button.addEventListener('click', () => { const next = !card.classList.contains('future-done'); futureState[key] = next; localStorage.setItem('cauanLuizaFuture', JSON.stringify(futureState)); paintFuture(next); });
+        card.appendChild(button);
+    });
+
+    // ===================== NOVO EASTER EGG =====================
+    let secretTyped = '';
+    document.addEventListener('keydown', event => {
+        if (event.key.length === 1) secretTyped = (secretTyped + event.key.toLowerCase()).slice(-5);
+        if (secretTyped === 'luiza') {
+            document.body.classList.toggle('reader-mode');
+            document.getElementById('shareToast').textContent = 'Modo secreto ativado ❤️';
+            document.getElementById('shareToast').classList.add('show');
+            window.setTimeout(() => document.getElementById('shareToast').classList.remove('show'), 2200);
+            secretTyped = '';
+        }
+    });
+
+    // ===================== ENTRADAS SUAVES =====================
+    const softObserver = new IntersectionObserver(entries => entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('in-view'); }), { threshold: .12 });
+    document.querySelectorAll('.reveal-soft').forEach(element => softObserver.observe(element));
 </script>
 
 </body>
