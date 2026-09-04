@@ -125,7 +125,7 @@
             justify-content: center;
             align-items: center;
             text-align: center;
-            background: linear-gradient(rgba(0,0,0,0.88), rgba(0,0,0,0.7)), url('images/header.jpg');
+            background: linear-gradient(135deg, rgba(9, 2, 17, .86), rgba(78, 7, 53, .58) 45%, rgba(5, 18, 53, .82)), url('images/header.jpg');
             background-size: cover;
             background-position: center;
             border-bottom: 2px solid var(--accent-red);
@@ -878,9 +878,47 @@
             *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
             .reveal-soft { opacity: 1; transform: none; }
         }
+        /* ===== FUNDO AMOR ELÉTRICO ===== */
+        body {
+            background-color: #08030d;
+            background-image:
+                radial-gradient(circle at 12% 14%, rgba(128, 18, 80, .28), transparent 30%),
+                radial-gradient(circle at 88% 22%, rgba(34, 57, 135, .24), transparent 28%),
+                radial-gradient(circle at 48% 78%, rgba(158, 13, 13, .24), transparent 34%),
+                linear-gradient(135deg, #05050a 0%, #160817 42%, #090b1b 72%, #050505 100%);
+            background-attachment: fixed;
+        }
+        body::after {
+            content: "";
+            position: fixed;
+            inset: -18%;
+            z-index: 0;
+            pointer-events: none;
+            opacity: .5;
+            background:
+                radial-gradient(ellipse at 15% 35%, rgba(255, 38, 104, .16), transparent 24%),
+                radial-gradient(ellipse at 82% 15%, rgba(79, 91, 255, .14), transparent 24%),
+                radial-gradient(ellipse at 68% 82%, rgba(255, 31, 74, .12), transparent 22%);
+            filter: blur(42px) saturate(125%);
+            animation: electricDrift 18s ease-in-out infinite alternate;
+        }
+        @keyframes electricDrift { from { transform: translate3d(-2%, -1%, 0) scale(1); } to { transform: translate3d(2%, 2%, 0) scale(1.08); } }
+        #electricGlow { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+        #electricGlow::before, #electricGlow::after { content: ""; position: absolute; width: 30vw; height: 30vw; min-width: 220px; min-height: 220px; border-radius: 50%; filter: blur(65px); opacity: .14; }
+        #electricGlow::before { top: 18%; left: -12%; background: #e31258; }
+        #electricGlow::after { right: -10%; bottom: 16%; background: #394dff; }
+        main > section, main > div, footer { background-color: transparent !important; }
+        header, nav, main, footer { position: relative; z-index: 1; }
+        #particles { z-index: 2; mix-blend-mode: screen; opacity: .72; }
+        @media (max-width: 760px) {
+            body { background-attachment: scroll; }
+            body::after { opacity: .34; filter: blur(30px) saturate(115%); }
+            #electricGlow::before, #electricGlow::after { width: 58vw; height: 58vw; opacity: .11; }
+        }
     </style>
 </head>
 <body>
+<div id="electricGlow" aria-hidden="true"></div>
 <div id="splash" aria-label="Abrindo Cauan e Luiza"><div class="splash-content"><h1>Cauan &amp; Luiza</h1><p>Crônicas do nosso amor</p></div></div>
 <div id="readingProgress" aria-hidden="true"></div>
 <div class="utility-dock" aria-label="Controles da página">
