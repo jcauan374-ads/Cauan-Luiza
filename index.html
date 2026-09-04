@@ -925,7 +925,6 @@
 <div id="readingProgress" aria-hidden="true"></div>
 <div class="utility-dock" aria-label="Controles da página">
     <button class="utility-btn" id="shareButton" type="button" aria-label="Compartilhar página" title="Compartilhar">↗</button>
-    <button class="utility-btn" id="readerToggle" type="button" aria-label="Ativar modo leitura" title="Modo leitura">A↕</button>
     <button class="utility-btn" id="backToTop" type="button" aria-label="Voltar ao topo" title="Voltar ao topo">↑</button>
 </div>
 <div id="shareToast" role="status" aria-live="polite">Link copiado ❤️</div>
@@ -1537,12 +1536,6 @@
     window.addEventListener('scroll', updateScrollUi, { passive: true });
     updateScrollUi();
     document.getElementById('backToTop').addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
-    document.getElementById('readerToggle').addEventListener('click', event => {
-        document.body.classList.toggle('reader-mode');
-        const active = document.body.classList.contains('reader-mode');
-        event.currentTarget.setAttribute('aria-label', active ? 'Desativar modo leitura' : 'Ativar modo leitura');
-        event.currentTarget.textContent = active ? 'A−' : 'A↕';
-    });
     document.getElementById('shareButton').addEventListener('click', async () => {
         const shareData = { title: document.title, text: 'Cauan & Luiza — Crônicas do nosso amor', url: window.location.href };
         try {
