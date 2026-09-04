@@ -21,9 +21,12 @@
             --text-dim: #888888;
             --neon-shadow: 0 0 15px rgba(158, 13, 13, 0.4);
             --border-style: 1px solid rgba(255, 255, 255, 0.1);
+            --navbar-height: 76px;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; scroll-behavior: smooth; }
+
+        html { scroll-padding-top: calc(var(--navbar-height) + 18px); }
 
         body {
             background-color: var(--bg-deep);
@@ -80,18 +83,26 @@
             position: fixed;
             top: 0; left: 0; right: 0;
             z-index: 500;
-            padding: 20px 40px;
+            min-height: var(--navbar-height);
+            padding: 14px 40px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background: linear-gradient(to bottom, rgba(5,5,5,0.95), transparent);
-            transition: background 0.3s;
+            background: rgba(5, 5, 5, 0.62);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+            backdrop-filter: blur(14px) saturate(135%);
+            -webkit-backdrop-filter: blur(14px) saturate(135%);
+            transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
         }
 
         nav.scrolled {
-            background: rgba(5,5,5,0.97);
-            border-bottom: 1px solid var(--accent-red);
+            background: rgba(5, 5, 5, 0.88);
+            border-bottom-color: rgba(255, 46, 46, 0.72);
+            box-shadow: 0 10px 34px rgba(0, 0, 0, 0.34), 0 1px 0 rgba(255, 46, 46, 0.16);
         }
+
+        nav.scrolled .nav-logo { text-shadow: 0 0 14px rgba(255, 46, 46, 0.38); }
 
         .nav-logo {
             font-size: 1rem;
@@ -120,6 +131,8 @@
 
         header {
             height: 100vh;
+            min-height: 560px;
+            padding: var(--navbar-height) 20px 0;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -793,7 +806,7 @@
             .chapter-header { flex-direction: column; }
             .chapter-date { margin-top: 10px; }
             header h1 { font-size: 4rem; }
-            nav { padding: 15px 20px; }
+            nav { padding: 12px 20px; }
             .nav-links { gap: 15px; }
             .nav-links a { font-size: 0.75rem; }
             .music-player { bottom: 15px; right: 15px; }
@@ -818,7 +831,10 @@
         #shareToast.show { opacity: 1; transform: translateY(0); }
         #backToTop { opacity: 0; pointer-events: none; transform: translateY(10px); }
         #backToTop.visible { opacity: 1; pointer-events: auto; transform: translateY(0); }
-        .nav-toggle { display: none; border: 1px solid rgba(255,46,46,.45); background: transparent; color: #fff; border-radius: 10px; width: 44px; height: 44px; font-size: 1.25rem; cursor: pointer; }
+        .nav-toggle { display: none; border: 1px solid rgba(255,46,46,.45); background: rgba(0,0,0,.18); color: #fff; border-radius: 10px; width: 44px; height: 44px; font-size: 1.25rem; cursor: pointer; transition: background .2s ease, border-color .2s ease, transform .2s ease; }
+        .nav-toggle:hover, .nav-toggle:focus-visible { background: rgba(158,13,13,.35); border-color: var(--accent-glow); outline: none; }
+        .nav-toggle:active { transform: scale(.96); }
+        .nav-toggle[aria-expanded="true"] { background: var(--accent-red); border-color: var(--accent-glow); }
         .type-cursor { display: inline-block; width: 2px; height: 1em; margin-left: 4px; vertical-align: -.12em; background: var(--accent-glow); animation: blinkCursor .8s step-end infinite; }
         @keyframes blinkCursor { 50% { opacity: 0; } }
         .countdown-next { margin: 26px auto 0; max-width: 620px; padding: 18px 20px; border: 1px solid rgba(255,46,46,.28); border-radius: 18px; background: linear-gradient(135deg, rgba(158,13,13,.18), rgba(255,255,255,.03)); box-shadow: var(--neon-shadow); }
@@ -860,12 +876,37 @@
         .reveal-soft { opacity: 0; transform: translateY(22px); transition: opacity .7s ease, transform .7s ease; }
         .reveal-soft.in-view { opacity: 1; transform: translateY(0); }
         @media (max-width: 760px) {
+            :root { --navbar-height: 68px; }
             .nav-toggle { display: block; }
             #navbar { display: flex; align-items: center; justify-content: space-between; }
-            .nav-links { position: absolute; top: 100%; left: 12px; right: 12px; display: none; flex-direction: column; padding: 10px; border: 1px solid rgba(255,46,46,.28); border-radius: 14px; background: rgba(5,5,5,.96); }
-            .nav-links.open { display: flex; }
+            .nav-links {
+                position: absolute;
+                top: calc(100% + 10px);
+                left: 12px;
+                right: 12px;
+                display: flex;
+                flex-direction: column;
+                gap: 2px;
+                padding: 8px;
+                border: 1px solid rgba(255,46,46,.36);
+                border-radius: 14px;
+                background: rgba(5,5,5,.9);
+                box-shadow: 0 18px 42px rgba(0,0,0,.42), 0 0 24px rgba(158,13,13,.1);
+                backdrop-filter: blur(18px) saturate(135%);
+                -webkit-backdrop-filter: blur(18px) saturate(135%);
+                opacity: 0;
+                visibility: hidden;
+                pointer-events: none;
+                transform: translateY(-8px) scale(.98);
+                transform-origin: top center;
+                transition: opacity .2s ease, visibility .2s ease, transform .2s ease;
+                max-height: calc(100svh - var(--navbar-height) - 28px);
+                overflow-y: auto;
+            }
+            .nav-links.open { opacity: 1; visibility: visible; pointer-events: auto; transform: translateY(0) scale(1); }
             .nav-links li { width: 100%; }
-            .nav-links a { display: block; padding: 12px 14px; }
+            .nav-links a { display: block; padding: 12px 14px; border-radius: 9px; }
+            .nav-links a:hover, .nav-links a:focus-visible { background: rgba(158,13,13,.2); }
             .utility-dock { right: 14px; bottom: 14px; }
             #shareToast { right: 14px; bottom: 196px; }
             .love-grid, .playlist-grid, .stats-grid { grid-template-columns: 1fr; }
@@ -875,6 +916,10 @@
         @media (min-width: 761px) and (max-width: 1100px) {
             .love-grid, .playlist-grid, .stats-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
         }
+        :is(#manifesto, #capitulos, #galeria, #amor, #promessas, #contador, #playlist, #recados) {
+            scroll-margin-top: calc(var(--navbar-height) + 18px);
+        }
+
         @media (prefers-reduced-motion: reduce) {
             *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
             .reveal-soft { opacity: 1; transform: none; }
@@ -910,7 +955,8 @@
         #electricGlow::after { right: -10%; bottom: 16%; background: #394dff; }
         main > section, main > div, footer { background-color: transparent !important; }
         header { isolation: isolate; }
-        header, nav, main, footer { position: relative; z-index: 1; }
+        header, main, footer { position: relative; z-index: 1; }
+        nav { position: fixed; }
         #particles { z-index: 2; mix-blend-mode: screen; opacity: .72; }
         @media (max-width: 760px) {
             body { background-attachment: scroll; }
@@ -973,8 +1019,8 @@
 <!-- Navbar -->
 <nav id="navbar">
     <div class="nav-logo">C &amp; L</div>
-    <button class="nav-toggle" id="navToggle" type="button" aria-label="Abrir menu" aria-expanded="false">☰</button>
-    <ul class="nav-links">
+    <button class="nav-toggle" id="navToggle" type="button" aria-label="Abrir menu" aria-expanded="false" aria-controls="primary-navigation">☰</button>
+    <ul class="nav-links" id="primary-navigation">
         <li><a href="#manifesto">Manifesto</a></li>
         <li><a href="#capitulos">Capítulos</a></li>
         <li><a href="#galeria">Galeria</a></li>
@@ -1443,9 +1489,10 @@
     });
 
     // ===================== NAVBAR =====================
-    window.addEventListener('scroll', () => {
-        document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 80);
-    });
+    const navbar = document.getElementById('navbar');
+    const updateNavbar = () => navbar.classList.toggle('scrolled', window.scrollY > 24);
+    window.addEventListener('scroll', updateNavbar, { passive: true });
+    updateNavbar();
 
     // ===================== PARTÍCULAS =====================
     function createParticles() {
@@ -1513,17 +1560,32 @@
     }
 
     const navToggle = document.getElementById('navToggle');
-    const navLinks = document.querySelector('.nav-links');
+    const navLinks = document.getElementById('primary-navigation');
+    const closeMobileMenu = () => {
+        navLinks?.classList.remove('open');
+        navToggle?.setAttribute('aria-expanded', 'false');
+        navToggle?.setAttribute('aria-label', 'Abrir menu');
+        if (navToggle) navToggle.textContent = '☰';
+    };
     navToggle?.addEventListener('click', () => {
         const open = navLinks.classList.toggle('open');
         navToggle.setAttribute('aria-expanded', String(open));
+        navToggle.setAttribute('aria-label', open ? 'Fechar menu' : 'Abrir menu');
         navToggle.textContent = open ? '✕' : '☰';
     });
-    navLinks?.querySelectorAll('a').forEach(link => link.addEventListener('click', () => {
-        navLinks.classList.remove('open');
-        navToggle?.setAttribute('aria-expanded', 'false');
-        if (navToggle) navToggle.textContent = '☰';
-    }));
+    navLinks?.querySelectorAll('a').forEach(link => link.addEventListener('click', closeMobileMenu));
+    document.addEventListener('click', event => {
+        if (window.innerWidth <= 760 && navLinks?.classList.contains('open') && !navbar.contains(event.target)) closeMobileMenu();
+    });
+    document.addEventListener('keydown', event => {
+        if (event.key === 'Escape') {
+            closeMobileMenu();
+            closeLightbox();
+        }
+    });
+    window.addEventListener('resize', () => {
+        if (window.innerWidth > 760) closeMobileMenu();
+    });
 
     const updateScrollUi = () => {
         const scrollable = document.documentElement.scrollHeight - window.innerHeight;
