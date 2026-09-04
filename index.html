@@ -842,6 +842,28 @@
         #nextBirthday { margin-top: 6px; font-size: clamp(1.2rem, 3vw, 2rem); letter-spacing: .08em; }
         .new-section { padding: 84px 7%; position: relative; }
         .new-section .section-title { margin-bottom: 34px; }
+        .codes-section { max-width: 1120px; margin: 0 auto; }
+        .codes-layout { display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); gap: 24px; align-items: stretch; max-width: 980px; margin: 0 auto; }
+        .code-clues, .code-form { background: linear-gradient(145deg, rgba(255,255,255,.055), rgba(158,13,13,.1)); border: 1px solid rgba(255,255,255,.12); border-radius: 20px; padding: 26px; box-shadow: 0 14px 40px rgba(0,0,0,.22); backdrop-filter: blur(10px); }
+        .code-clues h3, .code-form h3 { color: #fff; margin-bottom: 16px; }
+        .code-clue { display: flex; align-items: flex-start; gap: 14px; padding: 14px 0; border-bottom: 1px solid rgba(255,255,255,.1); }
+        .code-clue:last-child { border-bottom: 0; padding-bottom: 0; }
+        .clue-number { color: var(--accent-glow); font-size: .75rem; font-weight: 800; letter-spacing: .08em; padding-top: 3px; }
+        .clue-icon { color: var(--accent-glow); font-size: 1.35rem; line-height: 1; }
+        .code-clue strong { display: block; color: #fff; font-size: 1rem; margin-bottom: 3px; }
+        .code-clue p, .code-helper { color: var(--text-dim); font-size: .88rem; }
+        .code-form { display: flex; flex-direction: column; justify-content: center; }
+        .code-form label { color: #fff; font-size: 1.1rem; font-weight: 700; margin-bottom: 12px; }
+        .code-input-row { display: flex; gap: 10px; }
+        .code-input { flex: 1; min-width: 0; border: 1px solid rgba(255,255,255,.16); border-radius: 12px; padding: 13px 14px; color: #fff; background: rgba(0,0,0,.32); font: inherit; letter-spacing: .14em; }
+        .code-input:focus { outline: 2px solid rgba(255,46,46,.5); border-color: var(--accent-glow); }
+        .code-submit { border: 1px solid rgba(255,46,46,.55); border-radius: 12px; padding: 12px 16px; background: var(--accent-red); color: #fff; cursor: pointer; font: inherit; font-weight: 700; white-space: nowrap; transition: background .2s ease, transform .2s ease, box-shadow .2s ease; }
+        .code-submit:hover, .code-submit:focus-visible { background: var(--accent-glow); box-shadow: 0 0 18px rgba(255,46,46,.35); outline: none; }
+        .code-submit:active { transform: scale(.97); }
+        .code-helper { margin-top: 12px; }
+        .code-feedback { margin-top: 22px; padding: 18px; border: 1px solid rgba(255,46,46,.45); border-radius: 14px; background: rgba(158,13,13,.16); color: #fff; font-size: 1.03rem; line-height: 1.65; box-shadow: 0 0 22px rgba(158,13,13,.16); animation: codeReveal .3s ease-out; }
+        .code-feedback.is-error { border-color: rgba(255,255,255,.22); background: rgba(255,255,255,.05); color: var(--text-dim); box-shadow: none; }
+        @keyframes codeReveal { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
         .love-grid, .playlist-grid, .stats-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; max-width: 1120px; margin: 0 auto; }
         .love-card, .playlist-card, .stat-card, .climate-card, .message-board { background: linear-gradient(145deg, rgba(255,255,255,.055), rgba(158,13,13,.10)); border: 1px solid rgba(255,255,255,.12); border-radius: 20px; padding: 24px; box-shadow: 0 14px 40px rgba(0,0,0,.22); backdrop-filter: blur(10px); transition: transform .25s ease, border-color .25s ease, box-shadow .25s ease; }
         .love-card:hover, .playlist-card:hover, .stat-card:hover { transform: translateY(-5px); border-color: rgba(255,46,46,.6); box-shadow: 0 0 24px rgba(158,13,13,.24); }
@@ -875,7 +897,7 @@
         @keyframes dividerGlow { from { opacity: .35; transform: scaleX(.65); } to { opacity: 1; transform: scaleX(1); } }
         .reveal-soft { opacity: 0; transform: translateY(22px); transition: opacity .7s ease, transform .7s ease; }
         .reveal-soft.in-view { opacity: 1; transform: translateY(0); }
-        @media (max-width: 760px) {
+        @media (max-width: 900px) {
             :root { --navbar-height: 68px; }
             .nav-toggle { display: block; }
             #navbar { display: flex; align-items: center; justify-content: space-between; }
@@ -912,11 +934,12 @@
             .love-grid, .playlist-grid, .stats-grid { grid-template-columns: 1fr; }
             .new-section { padding: 64px 5%; }
             .climate-card { align-items: flex-start; }
+            .codes-layout { grid-template-columns: 1fr; }
         }
-        @media (min-width: 761px) and (max-width: 1100px) {
+        @media (min-width: 901px) and (max-width: 1100px) {
             .love-grid, .playlist-grid, .stats-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
         }
-        :is(#manifesto, #capitulos, #galeria, #amor, #promessas, #contador, #playlist, #recados) {
+        :is(#manifesto, #capitulos, #galeria, #amor, #promessas, #contador, #playlist, #recados, #codigos) {
             scroll-margin-top: calc(var(--navbar-height) + 18px);
         }
 
@@ -1029,6 +1052,7 @@
         <li><a href="#contador">Contador</a></li>
         <li><a href="#playlist">Playlist</a></li>
         <li><a href="#recados">Recados</a></li>
+        <li><a href="#codigos">Códigos</a></li>
     </ul>
 </nav>
 
@@ -1388,6 +1412,24 @@
         </div>
     </section>
 
+    <section class="new-section codes-section" id="codigos">
+        <div class="section-title"><h2>Inserir <span>Código</span></h2><p>três dicas guardam três frases especiais</p><div class="divider"></div><div class="animated-divider"></div></div>
+        <div class="codes-layout">
+            <div class="code-clues">
+                <h3>Antes de inserir o código, siga as dicas:</h3>
+                <div class="code-clue"><span class="clue-number">01</span><span class="clue-icon">♥</span><div><strong>Amor</strong><p>Uma data que marcou o começo de tudo.</p></div></div>
+                <div class="code-clue"><span class="clue-number">02</span><span class="clue-icon">🔥</span><div><strong>Tesão</strong><p>Uma lembrança de intensidade e desejo.</p></div></div>
+                <div class="code-clue"><span class="clue-number">03</span><span class="clue-icon">✦</span><div><strong>Nascimento</strong><p>O dia em que nasceu alguém muito especial.</p></div></div>
+            </div>
+            <form class="code-form" id="codeForm">
+                <label for="secretCode">Insira um dos códigos</label>
+                <div class="code-input-row"><input class="code-input" id="secretCode" type="text" inputmode="numeric" autocomplete="off" maxlength="8" placeholder="Digite o código" aria-describedby="codeHelper" required><button class="code-submit" type="submit">Revelar frase</button></div>
+                <p class="code-helper" id="codeHelper">As dicas podem ajudar você a descobrir cada mensagem.</p>
+                <div class="code-feedback" id="codeFeedback" role="status" aria-live="polite" hidden></div>
+            </form>
+        </div>
+    </section>
+
     <section class="new-section reveal-soft" id="estatisticas">
         <div class="section-title"><h2>Nossa <span>Estatística</span></h2><p>números que não explicam tudo, mas contam bastante</p><div class="divider"></div><div class="animated-divider"></div></div>
         <div class="stats-grid">
@@ -1575,7 +1617,7 @@
     });
     navLinks?.querySelectorAll('a').forEach(link => link.addEventListener('click', closeMobileMenu));
     document.addEventListener('click', event => {
-        if (window.innerWidth <= 760 && navLinks?.classList.contains('open') && !navbar.contains(event.target)) closeMobileMenu();
+        if (window.innerWidth <= 900 && navLinks?.classList.contains('open') && !navbar.contains(event.target)) closeMobileMenu();
     });
     document.addEventListener('keydown', event => {
         if (event.key === 'Escape') {
@@ -1584,7 +1626,32 @@
         }
     });
     window.addEventListener('resize', () => {
-        if (window.innerWidth > 760) closeMobileMenu();
+        if (window.innerWidth > 900) closeMobileMenu();
+    });
+
+    const codeMessages = {
+        '15092023': 'O dia mais feliz da minha vida, conhecer vc foi muito especial, mas vc me escolher foi melhor ainda, eu te amo Luiza Jeronimo❤️❤️❤️',
+        '12102023': 'A primeira sensação de sentir o seu corpo por dentro e por fora foi uns dos muitos momentos que eu vi que não existe ninguém como vc🔥🥵',
+        '11062007': 'O dia em que você nasceu foi o dia mais importante de muitas vidas, inclusive da minha. Mesmo sem te conhecer ainda, aquele foi o dia em que nasceu o amor da minha vida. Eu te amo para sempre vida❤️❤️❤️'
+    };
+    const codeForm = document.getElementById('codeForm');
+    const codeInput = document.getElementById('secretCode');
+    const codeFeedback = document.getElementById('codeFeedback');
+    codeForm?.addEventListener('submit', event => {
+        event.preventDefault();
+        const code = codeInput.value.trim();
+        const message = codeMessages[code];
+        codeFeedback.hidden = false;
+        codeFeedback.classList.remove('is-error');
+        if (message) {
+            codeFeedback.textContent = message;
+            codeInput.value = '';
+            codeInput.focus();
+        } else {
+            codeFeedback.textContent = 'Esse código ainda não abriu uma lembrança. Tente novamente com uma das dicas.';
+            codeFeedback.classList.add('is-error');
+            codeInput.select();
+        }
     });
 
     const updateScrollUi = () => {
