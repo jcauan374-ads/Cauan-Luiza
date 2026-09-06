@@ -886,7 +886,18 @@
         .message-form button, .future-check { border: 1px solid rgba(255,46,46,.55); border-radius: 999px; padding: 10px 15px; background: rgba(158,13,13,.2); color: #fff; cursor: pointer; transition: .2s ease; }
         .message-form button:hover, .future-check:hover { background: var(--accent-red); }
         #messageList { display: grid; gap: 10px; margin-top: 18px; }
-        .saved-message { border-left: 2px solid var(--accent-glow); padding: 10px 12px; background: rgba(255,255,255,.04); color: var(--text-dim); font-size: .9rem; }
+        .saved-message { border-left: 2px solid var(--accent-glow); padding: 12px 14px; background: rgba(255,255,255,.04); color: var(--text-dim); font-size: .9rem; border-radius: 0 12px 12px 0; }
+        .saved-message-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 6px; }
+        .saved-message-name { color: #fff; font-weight: 700; }
+        .saved-message-time { color: rgba(255,255,255,.52); font-size: .74rem; white-space: nowrap; }
+        .saved-message-text { margin: 0; white-space: pre-wrap; word-break: break-word; }
+        .saved-message-actions { display: flex; gap: 6px; margin-top: 10px; }
+        .saved-message-actions button { border: 1px solid rgba(255,255,255,.18); border-radius: 999px; padding: 5px 10px; color: rgba(255,255,255,.78); background: rgba(0,0,0,.22); cursor: pointer; font-size: .74rem; }
+        .saved-message-actions button:hover { border-color: var(--accent-glow); color: #fff; }
+        .message-status { min-height: 20px; margin: 4px 0 0; color: rgba(255,255,255,.6); font-size: .82rem; }
+        .message-status[data-state="error"] { color: #ff9b9b; }
+        .message-status[data-state="success"] { color: #baf7c7; }
+        .message-empty { color: rgba(255,255,255,.55); font-size: .9rem; text-align: center; padding: 16px; }
         .future-card { position: relative; }
         .future-check { display: inline-flex; align-items: center; gap: 6px; margin-top: 12px; font-size: .75rem; }
         .future-card.future-done { border-color: rgba(255,46,46,.58); box-shadow: 0 0 20px rgba(158,13,13,.2); }
@@ -985,6 +996,27 @@
             body { background-attachment: scroll; }
             body::after { opacity: .34; filter: blur(30px) saturate(115%); }
             #electricGlow::before, #electricGlow::after { width: 58vw; height: 58vw; opacity: .11; }
+        }
+        /* ===== NAVBAR SEMPRE VISÍVEL ===== */
+        html { scroll-padding-top: 78px; }
+        [id] { scroll-margin-top: 78px; }
+        #navbar {
+            position: fixed !important;
+            inset: 0 0 auto 0;
+            min-height: 68px;
+            z-index: 2500 !important;
+            background: linear-gradient(180deg, rgba(5, 5, 10, .96), rgba(10, 4, 16, .72)) !important;
+            border-bottom: 1px solid rgba(255, 46, 46, .28);
+            box-shadow: 0 8px 28px rgba(0, 0, 0, .28);
+            backdrop-filter: blur(16px) saturate(125%);
+            -webkit-backdrop-filter: blur(16px) saturate(125%);
+        }
+        #navbar.scrolled { background: rgba(5, 5, 10, .98) !important; border-bottom-color: rgba(255, 46, 46, .58); }
+        #navbar .nav-links a { color: rgba(255, 255, 255, .78); }
+        #navbar .nav-links a:hover, #navbar .nav-links a:focus-visible { color: #fff; text-shadow: 0 0 10px rgba(255, 46, 46, .72); }
+        @media (max-width: 760px) {
+            #navbar { min-height: 64px; padding: 10px 16px; }
+            #navbar .nav-links { top: calc(100% + 8px); z-index: 2600; box-shadow: 0 18px 35px rgba(0,0,0,.44); }
         }
     </style>
 </head>
@@ -1405,9 +1437,9 @@
     </section>
 
     <section class="new-section reveal-soft" id="recados">
-        <div class="section-title"><h2>Mural de <span>Recados</span></h2><p>palavras guardadas neste navegador</p><div class="divider"></div><div class="animated-divider"></div></div>
+        <div class="section-title"><h2>Mural de <span>Recados</span></h2><p>recados compartilhados por 24 horas</p><div class="divider"></div><div class="animated-divider"></div></div>
         <div class="message-board">
-            <form class="message-form" id="messageForm"><input id="messageName" maxlength="40" placeholder="Seu nome" aria-label="Seu nome" required><textarea id="messageText" rows="3" maxlength="240" placeholder="Escreva um recado para nós..." aria-label="Seu recado" required></textarea><button type="submit">Guardar recado ❤️</button></form>
+            <form class="message-form" id="messageForm"><input id="messageName" maxlength="40" placeholder="Seu nome" aria-label="Seu nome" required><textarea id="messageText" rows="3" maxlength="280" placeholder="Escreva um recado para nós..." aria-label="Seu recado" required></textarea><button id="messageSubmit" type="submit">Guardar recado ❤️</button><button id="messageCancel" type="button" hidden>Cancelar edição</button><p class="message-status" id="messageStatus" role="status" aria-live="polite">Carregando mural compartilhado...</p></form>
             <div id="messageList" aria-live="polite"></div>
         </div>
     </section>
@@ -1452,6 +1484,7 @@
     <p>&copy; 2026 — Crônicas de Cauan & Luiza.<br>Escrito no sangue e no código.</p>
 </footer>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
     // ===================== ÁUDIO LOCAL =====================
     var audio = document.getElementById('audioPlayer');
@@ -1701,25 +1734,145 @@
         window.setTimeout(() => heart.remove(), 900);
     }));
 
-    // ===================== MURAL LOCAL =====================
+    // ===================== MURAL COMPARTILHADO =====================
+    const muralSupabaseUrl = 'https://xgfueljgjozsojbmiltz.supabase.co';
+    const muralSupabaseKey = 'sb_publishable_ltaNA7nnVozoSCOcZIjg';
+    const muralClient = window.supabase.createClient(muralSupabaseUrl, muralSupabaseKey);
     const messageList = document.getElementById('messageList');
-    const loadMessages = () => {
+    const messageForm = document.getElementById('messageForm');
+    const messageName = document.getElementById('messageName');
+    const messageText = document.getElementById('messageText');
+    const messageSubmit = document.getElementById('messageSubmit');
+    const messageCancel = document.getElementById('messageCancel');
+    const messageStatus = document.getElementById('messageStatus');
+    let muralUser = null;
+    let editingMessageId = null;
+
+    const setMessageStatus = (text, state = '') => {
+        messageStatus.textContent = text;
+        messageStatus.dataset.state = state;
+    };
+
+    const ensureMuralSession = async () => {
+        const current = await muralClient.auth.getSession();
+        if (current.data.session?.user) {
+            muralUser = current.data.session.user;
+            return muralUser;
+        }
+        const anonymous = await muralClient.auth.signInAnonymously();
+        if (anonymous.error) throw anonymous.error;
+        muralUser = anonymous.data.user;
+        return muralUser;
+    };
+
+    const formatMessageDate = date => new Intl.DateTimeFormat('pt-BR', { dateStyle: 'short', timeStyle: 'short' }).format(new Date(date));
+
+    const resetMessageEditor = () => {
+        editingMessageId = null;
+        messageForm.reset();
+        messageSubmit.textContent = 'Guardar recado ❤️';
+        messageCancel.hidden = true;
+        setMessageStatus('As mensagens ficam visíveis por 24 horas.');
+    };
+
+    const beginMessageEdit = message => {
+        editingMessageId = message.id;
+        messageName.value = message.display_name;
+        messageText.value = message.message;
+        messageSubmit.textContent = 'Salvar edição ❤️';
+        messageCancel.hidden = false;
+        setMessageStatus('Editando seu recado.');
+        messageText.focus();
+    };
+
+    const renderMessages = messages => {
         messageList.innerHTML = '';
-        JSON.parse(localStorage.getItem('cauanLuizaMessages') || '[]').slice(-8).reverse().forEach(message => {
-            const item = document.createElement('div');
+        if (!messages.length) {
+            const empty = document.createElement('p');
+            empty.className = 'message-empty';
+            empty.textContent = 'Ainda não há recados ativos. Escreva o primeiro ❤️';
+            messageList.appendChild(empty);
+            return;
+        }
+        messages.forEach(message => {
+            const item = document.createElement('article');
             item.className = 'saved-message';
-            item.textContent = `${message.name}: ${message.text}`;
+            const head = document.createElement('div');
+            head.className = 'saved-message-head';
+            const name = document.createElement('strong');
+            name.className = 'saved-message-name';
+            name.textContent = message.display_name;
+            const date = document.createElement('time');
+            date.className = 'saved-message-time';
+            date.dateTime = message.created_at;
+            date.textContent = formatMessageDate(message.created_at);
+            head.append(name, date);
+            const body = document.createElement('p');
+            body.className = 'saved-message-text';
+            body.textContent = message.message;
+            item.append(head, body);
+            if (muralUser && message.user_id === muralUser.id) {
+                const actions = document.createElement('div');
+                actions.className = 'saved-message-actions';
+                const edit = document.createElement('button');
+                edit.type = 'button';
+                edit.textContent = 'Editar';
+                edit.addEventListener('click', () => beginMessageEdit(message));
+                const remove = document.createElement('button');
+                remove.type = 'button';
+                remove.textContent = 'Apagar';
+                remove.addEventListener('click', async () => {
+                    if (!window.confirm('Apagar seu recado?')) return;
+                    const result = await muralClient.from('cauan_luiza_messages').delete().eq('id', message.id);
+                    if (result.error) return setMessageStatus('Não foi possível apagar agora.', 'error');
+                    setMessageStatus('Recado apagado.', 'success');
+                    await loadMessages();
+                });
+                actions.append(edit, remove);
+                item.appendChild(actions);
+            }
             messageList.appendChild(item);
         });
     };
-    document.getElementById('messageForm').addEventListener('submit', event => {
+
+    const loadMessages = async () => {
+        try {
+            await ensureMuralSession();
+            const result = await muralClient.from('cauan_luiza_messages').select('id,user_id,display_name,message,created_at,expires_at').gt('expires_at', new Date().toISOString()).order('created_at', { ascending: false }).limit(8);
+            if (result.error) throw result.error;
+            renderMessages(result.data || []);
+            if (!editingMessageId) setMessageStatus('Mural sincronizado. As mensagens expiram após 24 horas.');
+        } catch (error) {
+            console.error('[mural]', error);
+            setMessageStatus('Não foi possível conectar ao mural agora.', 'error');
+        }
+    };
+
+    messageForm.addEventListener('submit', async event => {
         event.preventDefault();
-        const messages = JSON.parse(localStorage.getItem('cauanLuizaMessages') || '[]');
-        messages.push({ name: document.getElementById('messageName').value.trim(), text: document.getElementById('messageText').value.trim(), date: Date.now() });
-        localStorage.setItem('cauanLuizaMessages', JSON.stringify(messages));
-        event.target.reset();
-        loadMessages();
+        const displayName = messageName.value.trim();
+        const text = messageText.value.trim();
+        if (!displayName || !text) return;
+        const wasEditing = Boolean(editingMessageId);
+        messageSubmit.disabled = true;
+        setMessageStatus(wasEditing ? 'Salvando edição...' : 'Publicando recado...');
+        try {
+            await ensureMuralSession();
+            const result = editingMessageId
+                ? await muralClient.from('cauan_luiza_messages').update({ display_name: displayName, message: text }).eq('id', editingMessageId)
+                : await muralClient.from('cauan_luiza_messages').insert({ display_name: displayName, message: text });
+            if (result.error) throw result.error;
+            resetMessageEditor();
+            setMessageStatus(wasEditing ? 'Recado atualizado.' : 'Recado publicado para todos.', 'success');
+            await loadMessages();
+        } catch (error) {
+            console.error('[mural]', error);
+            setMessageStatus('Não foi possível salvar o recado. Tente novamente.', 'error');
+        } finally {
+            messageSubmit.disabled = false;
+        }
     });
+    messageCancel.addEventListener('click', resetMessageEditor);
     loadMessages();
 
     // ===================== TIMELINE FUTURA PERSISTENTE =====================
