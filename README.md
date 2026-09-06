@@ -42,6 +42,9 @@ A interface utiliza uma identidade visual escura, detalhes em vermelho e efeitos
 | 🎵 Música ambiente | Arquivo de áudio incluído para complementar a experiência. |
 | 🌌 Efeitos visuais | Partículas, cursor interativo, brilho e transições suaves. |
 | 📱 Layout responsivo | Adaptação para diferentes tamanhos de tela. |
+| ⏳ Tempo restante | Recados exibem em tempo real quanto falta para expirar. |
+| 💌 Mural de recados | Mensagens compartilhadas, com edição, exclusão e expiração após 24 horas. |
+| 🖼️ Mural de memórias | Upload de foto, legenda, notificação visual e remoção pelo autor. |
 
 ---
 
@@ -92,6 +95,8 @@ cd Cauan-Luiza
 ```
 
 Depois, abra o arquivo `index.html` no Chrome, Edge ou Firefox. Para garantir que os recursos locais sejam carregados corretamente, também é possível iniciar um servidor local:
+
+Para ativar o armazenamento compartilhado do **Mural de Memórias**, execute o conteúdo de `supabase/cauan-luiza-mural.sql` no SQL Editor do projeto Supabase conectado à página. Caso essa migração ainda não tenha sido aplicada, a página utiliza automaticamente um fallback no navegador para não interromper a experiência.
 
 ```bash
 python -m http.server 8000

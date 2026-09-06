@@ -898,6 +898,34 @@
         .message-status[data-state="error"] { color: #ff9b9b; }
         .message-status[data-state="success"] { color: #baf7c7; }
         .message-empty { color: rgba(255,255,255,.55); font-size: .9rem; text-align: center; padding: 16px; }
+        .message-expiry { display: block; margin-top: 8px; color: rgba(255,255,255,.46); font-size: .72rem; letter-spacing: .02em; }
+        .message-expiry.is-ending { color: #ffb0b0; }
+        .memory-board { max-width: 1040px; margin: 0 auto; }
+        .memory-layout { display: grid; grid-template-columns: minmax(280px, .82fr) minmax(0, 1.18fr); gap: 20px; align-items: start; }
+        .memory-form, .memory-list { background: linear-gradient(145deg, rgba(255,255,255,.055), rgba(158,13,13,.10)); border: 1px solid rgba(255,255,255,.12); border-radius: 20px; padding: 24px; box-shadow: 0 14px 40px rgba(0,0,0,.22); backdrop-filter: blur(10px); }
+        .memory-form { display: grid; gap: 12px; }
+        .memory-form h3 { color: #fff; margin-bottom: 2px; }
+        .memory-form p { color: var(--text-dim); font-size: .86rem; }
+        .memory-form input[type="text"], .memory-form textarea { width: 100%; border: 1px solid rgba(255,255,255,.16); border-radius: 12px; padding: 12px 14px; color: #fff; background: rgba(0,0,0,.32); font: inherit; resize: vertical; }
+        .memory-form input:focus, .memory-form textarea:focus { outline: 2px solid rgba(255,46,46,.5); border-color: var(--accent-glow); }
+        .memory-file-label { display: grid; gap: 8px; color: #fff; font-size: .86rem; font-weight: 700; }
+        .memory-file-label input[type="file"] { width: 100%; color: var(--text-dim); font-size: .78rem; }
+        .memory-file-name { min-height: 18px; color: var(--text-dim); font-size: .76rem; }
+        .memory-form button { border: 1px solid rgba(255,46,46,.55); border-radius: 999px; padding: 10px 15px; background: rgba(158,13,13,.2); color: #fff; cursor: pointer; transition: .2s ease; }
+        .memory-form button:hover, .memory-form button:focus-visible { background: var(--accent-red); outline: none; }
+        .memory-list { display: grid; gap: 12px; }
+        .memory-empty { color: rgba(255,255,255,.55); font-size: .9rem; text-align: center; padding: 16px; }
+        .memory-card { display: grid; grid-template-columns: 112px minmax(0, 1fr); gap: 14px; padding: 12px; border: 1px solid rgba(255,255,255,.09); border-radius: 15px; background: rgba(0,0,0,.22); }
+        .memory-card img { width: 112px; height: 112px; object-fit: cover; border-radius: 10px; border: 1px solid rgba(255,46,46,.35); }
+        .memory-card h4 { color: #fff; margin-bottom: 4px; }
+        .memory-card time { color: rgba(255,255,255,.46); font-size: .72rem; }
+        .memory-card p { color: var(--text-dim); margin-top: 8px; white-space: pre-wrap; word-break: break-word; font-size: .88rem; }
+        .memory-card-actions { margin-top: 10px; display: flex; gap: 6px; }
+        .memory-card-actions button { border: 1px solid rgba(255,255,255,.18); border-radius: 999px; padding: 5px 10px; color: rgba(255,255,255,.78); background: rgba(0,0,0,.22); cursor: pointer; font-size: .72rem; }
+        .memory-card-actions button:hover { border-color: var(--accent-glow); color: #fff; }
+        .memory-status { min-height: 20px; margin: 0; color: rgba(255,255,255,.6); font-size: .82rem; }
+        .memory-status[data-state="error"] { color: #ff9b9b; }
+        .memory-status[data-state="success"] { color: #baf7c7; }
         .future-card { position: relative; }
         .future-check { display: inline-flex; align-items: center; gap: 6px; margin-top: 12px; font-size: .75rem; }
         .future-card.future-done { border-color: rgba(255,46,46,.58); box-shadow: 0 0 20px rgba(158,13,13,.2); }
@@ -946,11 +974,16 @@
             .new-section { padding: 64px 5%; }
             .climate-card { align-items: flex-start; }
             .codes-layout { grid-template-columns: 1fr; }
+            .memory-layout { grid-template-columns: 1fr; }
+        }
+        @media (max-width: 560px) {
+            .memory-card { grid-template-columns: 1fr; }
+            .memory-card img { width: 100%; height: 190px; }
         }
         @media (min-width: 901px) and (max-width: 1100px) {
             .love-grid, .playlist-grid, .stats-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
         }
-        :is(#manifesto, #capitulos, #galeria, #amor, #promessas, #contador, #playlist, #recados, #codigos) {
+        :is(#manifesto, #capitulos, #galeria, #amor, #promessas, #contador, #playlist, #recados, #memorias, #codigos) {
             scroll-margin-top: calc(var(--navbar-height) + 18px);
         }
 
@@ -1084,6 +1117,7 @@
         <li><a href="#contador">Contador</a></li>
         <li><a href="#playlist">Playlist</a></li>
         <li><a href="#recados">Recados</a></li>
+        <li><a href="#memorias">Memórias</a></li>
         <li><a href="#codigos">Códigos</a></li>
     </ul>
 </nav>
@@ -1444,6 +1478,27 @@
         </div>
     </section>
 
+    <section class="new-section reveal-soft" id="memorias">
+        <div class="section-title"><h2>Mural de <span>Memórias</span></h2><p>guarde uma foto e o instante que merece ficar</p><div class="divider"></div><div class="animated-divider"></div></div>
+        <div class="memory-board">
+            <div class="memory-layout">
+                <form class="memory-form" id="memoryForm">
+                    <h3>Adicionar uma lembrança</h3>
+                    <p>A foto fica junto da legenda para transformar um momento em parte da nossa história.</p>
+                    <input id="memoryName" type="text" maxlength="40" placeholder="Seu nome" aria-label="Seu nome" required>
+                    <textarea id="memoryCaption" rows="4" maxlength="280" placeholder="O que torna esse momento especial?" aria-label="Legenda da memória" required></textarea>
+                    <label class="memory-file-label" for="memoryPhoto">Anexar uma foto
+                        <input id="memoryPhoto" type="file" accept="image/jpeg,image/png,image/webp" required>
+                    </label>
+                    <span class="memory-file-name" id="memoryFileName">Nenhuma foto selecionada.</span>
+                    <button id="memorySubmit" type="submit">Guardar memória ❤️</button>
+                    <p class="memory-status" id="memoryStatus" role="status" aria-live="polite">As memórias ficam guardadas no mural.</p>
+                </form>
+                <div class="memory-list" id="memoryList" aria-live="polite"><p class="memory-empty">Carregando memórias...</p></div>
+            </div>
+        </div>
+    </section>
+
     <section class="new-section codes-section" id="codigos">
         <div class="section-title"><h2>Inserir <span>Código</span></h2><p>três dicas guardam três frases especiais</p><div class="divider"></div><div class="animated-divider"></div></div>
         <div class="codes-layout">
@@ -1747,6 +1802,8 @@
     const messageStatus = document.getElementById('messageStatus');
     let muralUser = null;
     let editingMessageId = null;
+    let messageExpiryTimer = null;
+    let memoryLocalMode = false;
 
     const setMessageStatus = (text, state = '') => {
         messageStatus.textContent = text;
@@ -1766,6 +1823,25 @@
     };
 
     const formatMessageDate = date => new Intl.DateTimeFormat('pt-BR', { dateStyle: 'short', timeStyle: 'short' }).format(new Date(date));
+    const showSiteToast = (text, state = 'success') => {
+        const toast = document.getElementById('shareToast');
+        toast.textContent = text;
+        toast.dataset.state = state;
+        toast.classList.add('show');
+        window.clearTimeout(showSiteToast.timer);
+        showSiteToast.timer = window.setTimeout(() => toast.classList.remove('show'), 2600);
+    };
+    const updateMessageExpiries = () => {
+        document.querySelectorAll('.message-expiry[data-expires]').forEach(element => {
+            const diff = new Date(element.dataset.expires).getTime() - Date.now();
+            if (diff <= 0) { element.textContent = 'Expirado'; return; }
+            const hours = Math.floor(diff / 3600000);
+            const minutes = Math.floor((diff / 60000) % 60);
+            const seconds = Math.floor((diff / 1000) % 60);
+            element.textContent = `restam ${hours}h ${String(minutes).padStart(2, '0')}m ${String(seconds).padStart(2, '0')}s`;
+            element.classList.toggle('is-ending', diff < 3600000);
+        });
+    };
 
     const resetMessageEditor = () => {
         editingMessageId = null;
@@ -1810,7 +1886,10 @@
             const body = document.createElement('p');
             body.className = 'saved-message-text';
             body.textContent = message.message;
-            item.append(head, body);
+            const expiry = document.createElement('small');
+            expiry.className = 'message-expiry';
+            expiry.dataset.expires = message.expires_at;
+            item.append(head, body, expiry);
             if (muralUser && message.user_id === muralUser.id) {
                 const actions = document.createElement('div');
                 actions.className = 'saved-message-actions';
@@ -1864,6 +1943,7 @@
             if (result.error) throw result.error;
             resetMessageEditor();
             setMessageStatus(wasEditing ? 'Recado atualizado.' : 'Recado publicado para todos.', 'success');
+            showSiteToast(wasEditing ? 'Recado atualizado.' : 'Novo recado publicado ❤️');
             await loadMessages();
         } catch (error) {
             console.error('[mural]', error);
@@ -1874,6 +1954,88 @@
     });
     messageCancel.addEventListener('click', resetMessageEditor);
     loadMessages();
+    messageExpiryTimer = window.setInterval(updateMessageExpiries, 1000);
+
+    // ===================== MURAL DE MEMÓRIAS =====================
+    const memoryForm = document.getElementById('memoryForm');
+    const memoryName = document.getElementById('memoryName');
+    const memoryCaption = document.getElementById('memoryCaption');
+    const memoryPhoto = document.getElementById('memoryPhoto');
+    const memoryFileName = document.getElementById('memoryFileName');
+    const memorySubmit = document.getElementById('memorySubmit');
+    const memoryStatus = document.getElementById('memoryStatus');
+    const memoryList = document.getElementById('memoryList');
+    const memoryStorageKey = 'cauanLuizaMemories';
+    memoryPhoto?.addEventListener('change', () => { memoryFileName.textContent = memoryPhoto.files?.[0]?.name || 'Nenhuma foto selecionada.'; });
+    const setMemoryStatus = (text, state = '') => { memoryStatus.textContent = text; memoryStatus.dataset.state = state; };
+    const getLocalMemories = () => JSON.parse(localStorage.getItem(memoryStorageKey) || '[]');
+    const saveLocalMemories = memories => localStorage.setItem(memoryStorageKey, JSON.stringify(memories.slice(0, 12)));
+    const renderMemories = memories => {
+        memoryList.innerHTML = '';
+        if (!memories.length) {
+            const empty = document.createElement('p'); empty.className = 'memory-empty'; empty.textContent = 'Ainda não há memórias. Anexe a primeira foto ❤️'; memoryList.appendChild(empty); return;
+        }
+        memories.forEach(memory => {
+            const card = document.createElement('article'); card.className = 'memory-card';
+            const image = document.createElement('img'); image.src = memory.photo_data; image.alt = `Memória de ${memory.display_name}`; image.loading = 'lazy';
+            const content = document.createElement('div');
+            const title = document.createElement('h4'); title.textContent = memory.display_name;
+            const date = document.createElement('time'); date.dateTime = memory.created_at; date.textContent = formatMessageDate(memory.created_at);
+            const caption = document.createElement('p'); caption.textContent = memory.caption;
+            content.append(title, date, caption);
+            if (muralUser && memory.user_id === muralUser.id) {
+                const actions = document.createElement('div'); actions.className = 'memory-card-actions';
+                const remove = document.createElement('button'); remove.type = 'button'; remove.textContent = 'Apagar';
+                remove.addEventListener('click', async () => {
+                    if (!window.confirm('Apagar esta memória?')) return;
+                    if (memoryLocalMode) saveLocalMemories(getLocalMemories().filter(item => item.id !== memory.id));
+                    else await muralClient.from('cauan_luiza_memories').delete().eq('id', memory.id);
+                    showSiteToast('Memória apagada.'); loadMemories();
+                });
+                actions.appendChild(remove); content.appendChild(actions);
+            }
+            card.append(image, content); memoryList.appendChild(card);
+        });
+    };
+    const loadMemories = async () => {
+        try {
+            await ensureMuralSession();
+            const result = await muralClient.from('cauan_luiza_memories').select('id,user_id,display_name,caption,photo_data,created_at').order('created_at', { ascending: false }).limit(12);
+            if (result.error) throw result.error;
+            memoryLocalMode = false; renderMemories(result.data || []); setMemoryStatus('Mural de memórias sincronizado.');
+        } catch (error) {
+            console.warn('[memorias] usando armazenamento local', error);
+            memoryLocalMode = true; renderMemories(getLocalMemories()); setMemoryStatus('Memórias salvas neste navegador enquanto a sincronização não estiver disponível.');
+        }
+    };
+    const readPhotoAsDataUrl = file => new Promise((resolve, reject) => { const reader = new FileReader(); reader.onload = () => resolve(reader.result); reader.onerror = reject; reader.readAsDataURL(file); });
+    memoryForm?.addEventListener('submit', async event => {
+        event.preventDefault();
+        const file = memoryPhoto.files?.[0];
+        if (!file || !file.type.startsWith('image/')) return setMemoryStatus('Escolha uma imagem válida.', 'error');
+        if (file.size > 3 * 1024 * 1024) return setMemoryStatus('A foto precisa ter no máximo 3 MB.', 'error');
+        memorySubmit.disabled = true; setMemoryStatus('Guardando sua memória...');
+        try {
+            const photoData = await readPhotoAsDataUrl(file); await ensureMuralSession();
+            const memory = { display_name: memoryName.value.trim(), caption: memoryCaption.value.trim(), photo_data: photoData };
+            if (!memory.display_name || !memory.caption) throw new Error('Preencha nome e legenda.');
+            if (memoryLocalMode) {
+                saveLocalMemories([{ id: crypto.randomUUID(), user_id: muralUser.id, created_at: new Date().toISOString(), ...memory }, ...getLocalMemories()]);
+            } else {
+                const result = await muralClient.from('cauan_luiza_memories').insert(memory); if (result.error) throw result.error;
+            }
+            memoryForm.reset(); memoryFileName.textContent = 'Nenhuma foto selecionada.'; setMemoryStatus('Memória adicionada ao mural.', 'success'); showSiteToast('Memória guardada ❤️'); await loadMemories();
+        } catch (error) {
+            console.error('[memorias]', error);
+            memoryLocalMode = true;
+            const photoData = memoryPhoto.files?.[0] ? await readPhotoAsDataUrl(memoryPhoto.files[0]) : '';
+            if (photoData && memoryName.value.trim() && memoryCaption.value.trim()) {
+                saveLocalMemories([{ id: crypto.randomUUID(), user_id: muralUser?.id || 'local', created_at: new Date().toISOString(), display_name: memoryName.value.trim(), caption: memoryCaption.value.trim(), photo_data: photoData }, ...getLocalMemories()]);
+                memoryForm.reset(); memoryFileName.textContent = 'Nenhuma foto selecionada.'; setMemoryStatus('Memória guardada neste navegador.', 'success'); showSiteToast('Memória guardada neste navegador.'); renderMemories(getLocalMemories());
+            } else setMemoryStatus('Não foi possível guardar a memória.', 'error');
+        } finally { memorySubmit.disabled = false; }
+    });
+    loadMemories();
 
     // ===================== TIMELINE FUTURA PERSISTENTE =====================
     const futureState = JSON.parse(localStorage.getItem('cauanLuizaFuture') || '{}');
