@@ -1,131 +1,142 @@
-<div align="center">
+# Cauan & Luiza
 
-# ❤️ Cauan & Luiza
+## Crônicas do nosso amor
 
-### Crônicas do nosso amor
+> Uma experiência digital autoral para transformar capítulos, sentimentos e memórias em uma história interativa.
 
-[![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white)](https://developer.mozilla.org/pt-BR/docs/Web/HTML)
-[![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white)](https://developer.mozilla.org/pt-BR/docs/Web/CSS)
-[![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)](https://developer.mozilla.org/pt-BR/docs/Web/JavaScript)
-[![Status](https://img.shields.io/badge/Status-Projeto_pessoal-9e0d0d?style=for-the-badge)](#status-do-projeto)
+[![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white)](https://developer.mozilla.org/pt-BR/docs/Web/HTML) [![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white)](https://developer.mozilla.org/pt-BR/docs/Web/CSS) [![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)](https://developer.mozilla.org/pt-BR/docs/Web/JavaScript) [![GitHub Pages](https://img.shields.io/badge/Publicado%20com-GitHub%20Pages-222222?style=for-the-badge&logo=github)](https://pages.github.com/)
 
-> **Uma experiência digital criada para transformar memórias, capítulos e sentimentos em uma história interativa.**
+## Sobre o projeto
 
-</div>
+**Cauan & Luiza** é uma página web criada para registrar uma história de amor em formato de experiência digital. A aplicação combina narrativa em capítulos, galeria de imagens, música ambiente, cartas, promessas, códigos secretos, animações e recursos interativos em uma única página responsiva.
 
----
+A identidade visual segue uma direção **dark romantic**, com fundo escuro, vermelho profundo, cartões translúcidos, brilhos discretos e uma navegação vertical que conduz o visitante pela história.
 
-## 🧭 Sobre o projeto
+A versão publicada pode ser acessada em [jcauan374-ads.github.io/Cauan-Luiza](https://jcauan374-ads.github.io/Cauan-Luiza/?hero=original).
 
-**Cauan & Luiza** é uma página web autoral com estética cinematográfica e narrativa afetiva. O projeto foi construído para apresentar uma história em capítulos, combinando textos, imagens, música ambiente, animações e elementos interativos em uma única experiência.
-
-A interface utiliza uma identidade visual escura, detalhes em vermelho e efeitos de brilho para criar uma atmosfera íntima e marcante.
-
-<div align="center">
-
-| 🎨 Identidade | 📖 Narrativa | ✨ Experiência |
-|:---:|:---:|:---:|
-| Preto + vermelho | Capítulos e cartas | Galeria + animações |
-
-</div>
-
----
-
-## ✨ O que a página apresenta
+## Funcionalidades
 
 | Recurso | Descrição |
 |---|---|
-| 🖼️ Galeria de imagens | Coleção visual organizada com efeito de zoom e visualização ampliada. |
-| 📖 Linha do tempo | História dividida em capítulos para acompanhar a evolução da narrativa. |
-| 💌 Manifesto e carta | Seções textuais para registrar sentimentos e mensagens pessoais. |
-| 🤝 Promessas | Blocos destacados com compromissos e momentos especiais. |
-| 🎵 Música ambiente | Arquivo de áudio incluído para complementar a experiência. |
-| 🌌 Efeitos visuais | Partículas, cursor interativo, brilho e transições suaves. |
-| 📱 Layout responsivo | Adaptação para diferentes tamanhos de tela. |
-| ⏳ Tempo restante | Recados exibem em tempo real quanto falta para expirar. |
-| 💌 Mural de recados | Mensagens compartilhadas, com edição, exclusão e expiração após 24 horas. |
-| 🖼️ Mural de memórias | Upload de foto, legenda, notificação visual e remoção pelo autor. |
+| **Manifesto e carta** | Seções textuais para registrar sentimentos, declarações e pensamentos pessoais. |
+| **Capítulos** | Linha narrativa com acontecimentos importantes da história do casal. |
+| **Galeria** | Imagens com efeito de zoom, lightbox e interação de coração ao clicar duas vezes. |
+| **Contador do relacionamento** | Exibe o tempo transcorrido desde 15 de setembro de 2023. |
+| **Contador de tempo restante** | Mostra em tempo real quanto falta para o próximo aniversário de namoro. |
+| **Playlist** | Links para músicas que fazem parte da trilha sonora da história. |
+| **Mural de recados** | Visitantes autenticados anonimamente podem publicar, editar e apagar recados. Cada recado permanece visível por 24 horas. |
+| **Expiração dos recados** | Cada mensagem exibe um contador regressivo com dias, horas, minutos e segundos restantes. |
+| **Mural de memórias** | Permite anexar uma foto, informar o nome do autor e escrever uma legenda. |
+| **Notificações visuais** | Confirmações e avisos aparecem em um toast visual sem interromper a navegação. |
+| **Linha do futuro** | Cartões de planos e sonhos podem ser marcados como conquistados e ficam persistidos no navegador. |
+| **Códigos secretos** | Três códigos revelam frases especiais associadas a datas importantes. |
+| **Responsividade** | A interface se adapta a computadores, tablets e celulares. |
 
----
+## Tecnologias
 
-## 🗂️ Estrutura do projeto
+| Tecnologia | Uso no projeto |
+|---|---|
+| **HTML5** | Estrutura semântica da página. |
+| **CSS3** | Layout, identidade visual, responsividade, animações e efeitos de interação. |
+| **JavaScript** | Contadores, navegação, lightbox, partículas, formulário de recados, mural de memórias e notificações. |
+| **Supabase** | Autenticação anônima e persistência dos recados e das memórias compartilhadas. |
+| **GitHub Pages** | Hospedagem da versão pública e publicação automática a partir da branch `main`. |
+
+## Estrutura do repositório
 
 ```text
 Cauan-Luiza/
 ├── index.html
 ├── musica.m4a
-└── images/
-    ├── header.jpg
-    ├── manifesto.jpg
-    ├── intensity.jpg
-    ├── chapter1.jpg
-    ├── chapter2.jpg
-    ├── chapter3.jpg
-    └── gallery1.jpg ... gallery6.jpg
+├── README.md
+├── todo.md
+├── images/
+│   ├── header.jpg
+│   ├── manifesto.jpg
+│   ├── intensity.jpg
+│   ├── chapter1.jpg
+│   ├── chapter2.jpg
+│   ├── chapter3.jpg
+│   └── gallery1.jpg ... gallery6.jpg
+└── supabase/
+    └── cauan-luiza-mural.sql
 ```
 
-### Imagens utilizadas
+O arquivo `index.html` concentra a estrutura HTML, os estilos CSS e os scripts JavaScript da aplicação. A pasta `images/` contém as imagens usadas na narrativa e na galeria. O arquivo `musica.m4a` é utilizado pelo player de música ambiente. O diretório `supabase/` contém o esquema SQL necessário para ativar a persistência dos murais.
 
-Os arquivos da pasta `images/` são utilizados como capa, ilustrações dos capítulos, elementos do manifesto e itens da galeria visual.
+## Como executar localmente
 
----
-
-## 🛠️ Tecnologias utilizadas
-
-<div align="center">
-
-![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=flat-square&logo=html5&logoColor=white)
-![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=flat-square&logo=css3&logoColor=white)
-![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=flat-square&logo=javascript&logoColor=black)
-![Responsive Design](https://img.shields.io/badge/Responsive_Design-9e0d0d?style=flat-square)
-
-</div>
-
-O projeto utiliza HTML semântico, CSS incorporado na página e JavaScript para controlar partículas, navegação, lightbox da galeria, cursor interativo, efeitos de rolagem e interações da experiência.
-
----
-
-## 🚀 Como visualizar
-
-Como o projeto é uma página estática, basta clonar o repositório e abrir o arquivo `index.html` no navegador:
+Clone o repositório e entre no diretório do projeto:
 
 ```bash
 git clone https://github.com/jcauan374-ads/Cauan-Luiza.git
 cd Cauan-Luiza
 ```
 
-Depois, abra o arquivo `index.html` no Chrome, Edge ou Firefox. Para garantir que os recursos locais sejam carregados corretamente, também é possível iniciar um servidor local:
-
-Para ativar o armazenamento compartilhado do **Mural de Memórias**, execute o conteúdo de `supabase/cauan-luiza-mural.sql` no SQL Editor do projeto Supabase conectado à página. Caso essa migração ainda não tenha sido aplicada, a página utiliza automaticamente um fallback no navegador para não interromper a experiência.
+Como o projeto é uma página estática, é possível abrir o `index.html` diretamente no navegador. Para garantir que todos os recursos locais sejam carregados corretamente, recomenda-se iniciar um servidor HTTP simples:
 
 ```bash
-python -m http.server 8000
+python3 -m http.server 8000
 ```
 
-Acesse `http://localhost:8000` no navegador.
+Depois, acesse [http://localhost:8000](http://localhost:8000).
 
----
+## Configuração do Supabase
 
-## 🎞️ Direção visual
+O projeto utiliza uma sessão anônima do Supabase para permitir que cada visitante publique e gerencie os próprios recados e memórias sem precisar criar uma conta tradicional.
 
-A interface foi construída com uma proposta **dark romantic**, utilizando fundo preto, cartões translúcidos, vermelho profundo, brilhos discretos e uma composição focada em leitura e impacto visual.
+Para ativar o armazenamento compartilhado do **Mural de Recados** e do **Mural de Memórias**, abra o SQL Editor do projeto Supabase e execute o conteúdo completo de [`supabase/cauan-luiza-mural.sql`](supabase/cauan-luiza-mural.sql). Esse script cria as tabelas, índices, gatilhos e políticas de segurança necessárias.
 
-O design prioriza uma navegação vertical, com capítulos e seções que funcionam como uma narrativa contínua.
+O esquema inclui as seguintes estruturas principais:
 
----
+| Estrutura | Finalidade |
+|---|---|
+| `cauan_luiza_messages` | Armazena nome, texto, autoria, data de criação e data de expiração dos recados. |
+| `cauan_luiza_memories` | Armazena nome, legenda, autoria, data e a foto anexada em formato de dados. |
+| Políticas RLS | Permitem leitura pública dos conteúdos e restringem edição ou exclusão ao autor da sessão anônima. |
 
-## 🚧 Status do projeto
+Caso a tabela de memórias ainda não tenha sido criada no Supabase, a aplicação utiliza um fallback com `localStorage`. Nesse modo, as memórias ficam disponíveis apenas no navegador em que foram adicionadas até que a migração seja aplicada.
 
-Projeto pessoal concluído em sua primeira versão, com possibilidade de receber novos capítulos, imagens, interações e melhorias de acessibilidade no futuro.
+> **Importante:** nunca substitua a chave pública do Supabase por uma chave secreta no código do navegador. Chaves administrativas devem permanecer fora do frontend.
+
+## Fluxo de publicação
+
+As alterações da página são publicadas pela branch `main`. O GitHub Pages gera a versão pública automaticamente após cada push aceito pelo repositório.
+
+Para publicar uma alteração:
+
+```bash
+git add .
+git commit -m " descreva a alteração aqui "
+git push origin main
+```
+
+Depois do push, o deploy pode levar alguns instantes para aparecer devido ao processo de build e ao cache do GitHub Pages.
+
+## Direção visual e experiência
+
+A interface foi concebida como uma narrativa contínua. A navegação fixa facilita o acesso às seções, enquanto o fundo escuro e os detalhes em vermelho reforçam a atmosfera íntima. Os cartões translúcidos organizam o conteúdo sem retirar o foco dos textos e das imagens.
+
+As animações são usadas como microinterações: partículas no fundo, entrada suave de seções, brilho dos divisores, toast de confirmação, contador em tempo real e lightbox para a galeria. A estrutura também inclui estados vazios, mensagens de erro e feedback de sucesso para tornar os formulários mais claros.
+
+## Status do projeto
+
+O projeto está publicado e funcional como uma página estática pessoal. As principais funcionalidades de narrativa, galeria, contador, recados e memórias já estão implementadas. Novos capítulos, imagens, códigos e melhorias de acessibilidade podem ser adicionados futuramente.
+
+## Referências
+
+- [Documentação de HTML — MDN](https://developer.mozilla.org/pt-BR/docs/Web/HTML)
+- [Documentação de CSS — MDN](https://developer.mozilla.org/pt-BR/docs/Web/CSS)
+- [Documentação de JavaScript — MDN](https://developer.mozilla.org/pt-BR/docs/Web/JavaScript)
+- [Documentação do Supabase](https://supabase.com/docs)
+- [Documentação do GitHub Pages](https://docs.github.com/pt/pages)
 
 ---
 
 <div align="center">
 
-### ❤️ Uma história em forma de código
-
 **Algumas memórias merecem uma página inteira.**
 
-[⬆️ Voltar ao início](#-cauan--luiza)
+[Cauan & Luiza](https://jcauan374-ads.github.io/Cauan-Luiza/?hero=original)
 
 </div>
