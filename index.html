@@ -1968,8 +1968,18 @@
     const memoryStorageKey = 'cauanLuizaMemories';
     memoryPhoto?.addEventListener('change', () => { memoryFileName.textContent = memoryPhoto.files?.[0]?.name || 'Nenhuma foto selecionada.'; });
     const setMemoryStatus = (text, state = '') => { memoryStatus.textContent = text; memoryStatus.dataset.state = state; };
-    const getLocalMemories = () => JSON.parse(localStorage.getItem(memoryStorageKey) || '[]');
-    const saveLocalMemories = memories => localStorage.setItem(memoryStorageKey, JSON.stringify(memories.slice(0, 12)));
+    const getLocalMemories = () => {
+        try { return JSON.parse(localStorage.getItem(memoryStorageKey) || '[]'); }
+        catch (error) { console.warn('[memorias] armazenamento local inválido', error); return []; }
+    };
+    const saveLocalMemories = memories => {
+        const ordered = memories.slice(0, 4);
+        for (let count = ordered.length; count > 0; count--) {
+            try { localStorage.setItem(memoryStorageKey, JSON.stringify(ordered.slice(0, count))); return true; }
+            catch (error) { console.warn('[memorias] quota local excedida', error); }
+        }
+        return false;
+    };
     const renderMemories = memories => {
         memoryList.innerHTML = '';
         if (!memories.length) {
@@ -2005,34 +2015,54 @@
             memoryLocalMode = false; renderMemories(result.data || []); setMemoryStatus('Mural de memórias sincronizado.');
         } catch (error) {
             console.warn('[memorias] usando armazenamento local', error);
-            memoryLocalMode = true; renderMemories(getLocalMemories()); setMemoryStatus('Memórias salvas neste navegador enquanto a sincronização não estiver disponível.');
+            memoryLocalMode = true; renderMemories(getLocalMemories()); setMemoryStatus('Memórias salvas neste navegador. Para compartilhar entre dispositivos, aplique o SQL do Supabase.', 'error');
         }
     };
-    const readPhotoAsDataUrl = file => new Promise((resolve, reject) => { const reader = new FileReader(); reader.onload = () => resolve(reader.result); reader.onerror = reject; reader.readAsDataURL(file); });
+    const compressPhoto = file => new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onerror = () => reject(new Error('Não foi possível ler a foto.'));
+        reader.onload = () => {
+            const image = new Image();
+            image.onerror = () => reject(new Error('A foto não pôde ser processada.'));
+            image.onload = () => {
+                const maxDimension = 1200;
+                const scale = Math.min(1, maxDimension / Math.max(image.width, image.height));
+                const canvas = document.createElement('canvas');
+                canvas.width = Math.max(1, Math.round(image.width * scale));
+                canvas.height = Math.max(1, Math.round(image.height * scale));
+                canvas.getContext('2d').drawImage(image, 0, 0, canvas.width, canvas.height);
+                resolve(canvas.toDataURL('image/jpeg', .72));
+            };
+            image.src = reader.result;
+        };
+        reader.readAsDataURL(file);
+    });
     memoryForm?.addEventListener('submit', async event => {
         event.preventDefault();
         const file = memoryPhoto.files?.[0];
         if (!file || !file.type.startsWith('image/')) return setMemoryStatus('Escolha uma imagem válida.', 'error');
-        if (file.size > 3 * 1024 * 1024) return setMemoryStatus('A foto precisa ter no máximo 3 MB.', 'error');
-        memorySubmit.disabled = true; setMemoryStatus('Guardando sua memória...');
+        if (file.size > 12 * 1024 * 1024) return setMemoryStatus('A foto precisa ter no máximo 12 MB.', 'error');
+        memorySubmit.disabled = true; setMemoryStatus('Processando e guardando sua memória...');
+        let pendingMemory = null;
         try {
-            const photoData = await readPhotoAsDataUrl(file); await ensureMuralSession();
-            const memory = { display_name: memoryName.value.trim(), caption: memoryCaption.value.trim(), photo_data: photoData };
-            if (!memory.display_name || !memory.caption) throw new Error('Preencha nome e legenda.');
+            const photoData = await compressPhoto(file);
+            const displayName = memoryName.value.trim();
+            const caption = memoryCaption.value.trim();
+            if (!displayName || !caption) throw new Error('Preencha nome e legenda.');
+            pendingMemory = { id: crypto.randomUUID(), user_id: muralUser?.id || 'local', created_at: new Date().toISOString(), display_name: displayName, caption, photo_data: photoData };
             if (memoryLocalMode) {
-                saveLocalMemories([{ id: crypto.randomUUID(), user_id: muralUser.id, created_at: new Date().toISOString(), ...memory }, ...getLocalMemories()]);
+                if (!saveLocalMemories([pendingMemory, ...getLocalMemories()])) throw new Error('Não há espaço disponível neste navegador.');
             } else {
-                const result = await muralClient.from('cauan_luiza_memories').insert(memory); if (result.error) throw result.error;
+                await ensureMuralSession();
+                const result = await muralClient.from('cauan_luiza_memories').insert({ display_name: displayName, caption, photo_data: photoData });
+                if (result.error) throw result.error;
             }
-            memoryForm.reset(); memoryFileName.textContent = 'Nenhuma foto selecionada.'; setMemoryStatus('Memória adicionada ao mural.', 'success'); showSiteToast('Memória guardada ❤️'); await loadMemories();
+            memoryForm.reset(); memoryFileName.textContent = 'Nenhuma foto selecionada.'; setMemoryStatus(memoryLocalMode ? 'Memória guardada neste navegador. Aplique o SQL para compartilhá-la.' : 'Memória adicionada ao mural.', memoryLocalMode ? 'error' : 'success'); showSiteToast(memoryLocalMode ? 'Memória guardada neste navegador.' : 'Memória guardada ❤️'); await loadMemories();
         } catch (error) {
             console.error('[memorias]', error);
-            memoryLocalMode = true;
-            const photoData = memoryPhoto.files?.[0] ? await readPhotoAsDataUrl(memoryPhoto.files[0]) : '';
-            if (photoData && memoryName.value.trim() && memoryCaption.value.trim()) {
-                saveLocalMemories([{ id: crypto.randomUUID(), user_id: muralUser?.id || 'local', created_at: new Date().toISOString(), display_name: memoryName.value.trim(), caption: memoryCaption.value.trim(), photo_data: photoData }, ...getLocalMemories()]);
-                memoryForm.reset(); memoryFileName.textContent = 'Nenhuma foto selecionada.'; setMemoryStatus('Memória guardada neste navegador.', 'success'); showSiteToast('Memória guardada neste navegador.'); renderMemories(getLocalMemories());
-            } else setMemoryStatus('Não foi possível guardar a memória.', 'error');
+            if (pendingMemory && saveLocalMemories([pendingMemory, ...getLocalMemories()])) {
+                memoryLocalMode = true; memoryForm.reset(); memoryFileName.textContent = 'Nenhuma foto selecionada.'; setMemoryStatus('Memória guardada neste navegador. A sincronização remota falhou.', 'error'); showSiteToast('Memória guardada neste navegador.'); renderMemories(getLocalMemories());
+            } else setMemoryStatus('Não foi possível guardar a foto. Tente uma imagem menor.', 'error');
         } finally { memorySubmit.disabled = false; }
     });
     loadMemories();
