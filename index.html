@@ -894,6 +894,11 @@
         .saved-message-actions { display: flex; gap: 6px; margin-top: 10px; }
         .saved-message-actions button { border: 1px solid rgba(255,255,255,.18); border-radius: 999px; padding: 5px 10px; color: rgba(255,255,255,.78); background: rgba(0,0,0,.22); cursor: pointer; font-size: .74rem; }
         .saved-message-actions button:hover { border-color: var(--accent-glow); color: #fff; }
+        .message-reactions { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 11px; }
+        .message-reaction { border: 1px solid rgba(255,255,255,.14); border-radius: 999px; padding: 5px 9px; color: rgba(255,255,255,.78); background: rgba(0,0,0,.2); cursor: pointer; font: inherit; font-size: .78rem; transition: .2s ease; }
+        .message-reaction:hover, .message-reaction:focus-visible { border-color: var(--accent-glow); color: #fff; outline: none; transform: translateY(-1px); }
+        .message-reaction.is-active { border-color: rgba(255,75,75,.8); background: rgba(158,13,13,.42); color: #fff; box-shadow: 0 0 12px rgba(255,46,46,.18); }
+        .message-reaction:disabled { cursor: wait; opacity: .65; }
         .message-status { min-height: 20px; margin: 4px 0 0; color: rgba(255,255,255,.6); font-size: .82rem; }
         .message-status[data-state="error"] { color: #ff9b9b; }
         .message-status[data-state="success"] { color: #baf7c7; }
@@ -1861,6 +1866,30 @@
         messageText.focus();
     };
 
+    const reactionOptions = [
+        { key: 'heart', emoji: '❤️', label: 'coração' },
+        { key: 'anatomical_heart', emoji: '🫀', label: 'coração pulsante' },
+        { key: 'sparkles', emoji: '✨', label: 'brilhos' }
+    ];
+    const toggleMessageReaction = async (message, reaction, button) => {
+        button.disabled = true;
+        try {
+            await ensureMuralSession();
+            const current = await muralClient.from('cauan_luiza_message_reactions').select('id').eq('message_id', message.id).eq('user_id', muralUser.id).eq('reaction', reaction).maybeSingle();
+            if (current.error) throw current.error;
+            const result = current.data
+                ? await muralClient.from('cauan_luiza_message_reactions').delete().eq('id', current.data.id)
+                : await muralClient.from('cauan_luiza_message_reactions').insert({ message_id: message.id, reaction });
+            if (result.error) throw result.error;
+            showSiteToast(current.data ? 'Reação removida.' : 'Reação adicionada.');
+            await loadMessages();
+        } catch (error) {
+            console.error('[reacoes]', error);
+            setMessageStatus('Não foi possível salvar sua reação agora.', 'error');
+        } finally {
+            button.disabled = false;
+        }
+    };
     const renderMessages = messages => {
         messageList.innerHTML = '';
         if (!messages.length) {
@@ -1889,7 +1918,21 @@
             const expiry = document.createElement('small');
             expiry.className = 'message-expiry';
             expiry.dataset.expires = message.expires_at;
-            item.append(head, body, expiry);
+            const reactions = document.createElement('div');
+            reactions.className = 'message-reactions';
+            reactionOptions.forEach(option => {
+                const summary = message.reactions?.[option.key] || { count: 0, userReacted: false };
+                const button = document.createElement('button');
+                button.type = 'button';
+                button.className = 'message-reaction';
+                button.classList.toggle('is-active', summary.userReacted);
+                button.setAttribute('aria-label', `Reagir com ${option.label}`);
+                button.setAttribute('aria-pressed', String(summary.userReacted));
+                button.textContent = `${option.emoji} ${summary.count}`;
+                button.addEventListener('click', () => toggleMessageReaction(message, option.key, button));
+                reactions.appendChild(button);
+            });
+            item.append(head, body, expiry, reactions);
             if (muralUser && message.user_id === muralUser.id) {
                 const actions = document.createElement('div');
                 actions.className = 'saved-message-actions';
@@ -1919,8 +1962,20 @@
             await ensureMuralSession();
             const result = await muralClient.from('cauan_luiza_messages').select('id,user_id,display_name,message,created_at,expires_at').gt('expires_at', new Date().toISOString()).order('created_at', { ascending: false }).limit(8);
             if (result.error) throw result.error;
-            renderMessages(result.data || []);
-            if (!editingMessageId) setMessageStatus('Mural sincronizado. As mensagens expiram após 24 horas.');
+            const messages = result.data || [];
+            const reactionsByMessage = {};
+            if (messages.length) {
+                const reactionResult = await muralClient.from('cauan_luiza_message_reactions').select('message_id,reaction,user_id').in('message_id', messages.map(message => message.id));
+                if (reactionResult.error) throw reactionResult.error;
+                reactionResult.data.forEach(row => {
+                    reactionsByMessage[row.message_id] ||= {};
+                    reactionsByMessage[row.message_id][row.reaction] ||= { count: 0, userReacted: false };
+                    reactionsByMessage[row.message_id][row.reaction].count += 1;
+                    if (row.user_id === muralUser.id) reactionsByMessage[row.message_id][row.reaction].userReacted = true;
+                });
+            }
+            renderMessages(messages.map(message => ({ ...message, reactions: reactionsByMessage[message.id] || {} })));
+            if (!editingMessageId) setMessageStatus('Mural sincronizado. Reaja aos recados com ❤️, 🫀 ou ✨.');
         } catch (error) {
             console.error('[mural]', error);
             setMessageStatus('Não foi possível conectar ao mural agora.', 'error');

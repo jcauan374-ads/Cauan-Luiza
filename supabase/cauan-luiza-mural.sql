@@ -129,3 +129,50 @@ drop trigger if exists cauan_luiza_memory_metadata on public.cauan_luiza_memorie
 create trigger cauan_luiza_memory_metadata
 before insert on public.cauan_luiza_memories
 for each row execute function public.cauan_luiza_memory_metadata();
+
+
+-- Reações compartilhadas para cada recado ativo.
+create table if not exists public.cauan_luiza_message_reactions (
+  id uuid primary key default gen_random_uuid(),
+  message_id uuid not null references public.cauan_luiza_messages(id) on delete cascade,
+  user_id uuid not null default auth.uid(),
+  reaction text not null check (reaction in ('heart', 'anatomical_heart', 'sparkles')),
+  created_at timestamptz not null default now(),
+  unique (message_id, user_id, reaction)
+);
+
+create index if not exists cauan_luiza_message_reactions_message_idx
+  on public.cauan_luiza_message_reactions (message_id, reaction);
+
+alter table public.cauan_luiza_message_reactions enable row level security;
+
+drop policy if exists "Anyone can read message reactions" on public.cauan_luiza_message_reactions;
+create policy "Anyone can read message reactions"
+on public.cauan_luiza_message_reactions
+for select
+to anon, authenticated
+using (exists (
+  select 1 from public.cauan_luiza_messages message
+  where message.id = message_id and message.expires_at > now()
+));
+
+drop policy if exists "Visitors can create message reactions" on public.cauan_luiza_message_reactions;
+create policy "Visitors can create message reactions"
+on public.cauan_luiza_message_reactions
+for insert
+to authenticated
+with check (
+  auth.uid() is not null
+  and user_id = auth.uid()
+  and exists (
+    select 1 from public.cauan_luiza_messages message
+    where message.id = message_id and message.expires_at > now()
+  )
+);
+
+drop policy if exists "Visitors can remove their message reactions" on public.cauan_luiza_message_reactions;
+create policy "Visitors can remove their message reactions"
+on public.cauan_luiza_message_reactions
+for delete
+to authenticated
+using (user_id = auth.uid());
