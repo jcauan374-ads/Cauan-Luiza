@@ -2010,9 +2010,21 @@
     const loadMemories = async () => {
         try {
             await ensureMuralSession();
-            const result = await muralClient.from('cauan_luiza_memories').select('id,user_id,display_name,caption,photo_data,created_at').order('created_at', { ascending: false }).limit(12);
+            let result = await muralClient.from('cauan_luiza_memories').select('id,user_id,display_name,caption,photo_data,created_at').order('created_at', { ascending: false }).limit(12);
             if (result.error) throw result.error;
-            memoryLocalMode = false; renderMemories(result.data || []); setMemoryStatus('Mural de memórias sincronizado.');
+            const localMemories = getLocalMemories();
+            let migrated = false;
+            if (localMemories.length) {
+                const rows = localMemories.map(({ id, user_id, created_at, display_name, caption, photo_data }) => ({ display_name, caption, photo_data }));
+                const migration = await muralClient.from('cauan_luiza_memories').insert(rows);
+                if (!migration.error) {
+                    localStorage.removeItem(memoryStorageKey);
+                    migrated = true;
+                    result = await muralClient.from('cauan_luiza_memories').select('id,user_id,display_name,caption,photo_data,created_at').order('created_at', { ascending: false }).limit(12);
+                    if (result.error) throw result.error;
+                } else console.warn('[memorias] migração local não concluída', migration.error);
+            }
+            memoryLocalMode = false; renderMemories(result.data || []); setMemoryStatus(migrated ? 'Memórias antigas sincronizadas com o mural.' : 'Mural de memórias sincronizado.', 'success');
         } catch (error) {
             console.warn('[memorias] usando armazenamento local', error);
             memoryLocalMode = true; renderMemories(getLocalMemories()); setMemoryStatus('Memórias salvas neste navegador. Para compartilhar entre dispositivos, aplique o SQL do Supabase.', 'error');
